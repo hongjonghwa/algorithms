@@ -1,6 +1,5 @@
 #include "assert.h"
-#include "pch.h"
-#include <iostream>
+#include "stdio.h"
 
 
 void enque(unsigned char data[1024], unsigned int offset, unsigned int len, unsigned int val) {
