@@ -1,70 +1,44 @@
+/* 
+ * https://en.wikipedia.org/wiki/Partition_(number_theory)
+ * https://ko.wikipedia.org/wiki/%EC%9E%90%EC%97%B0%EC%88%98%EC%9D%98_%EB%B6%84%ED%95%A0
+ * https://wiki.mathnt.net/index.php?title=%EC%9E%90%EC%97%B0%EC%88%98%EC%9D%98_%EB%B6%84%ED%95%A0%EC%88%98(integer_partitions)
+ * https://namu.wiki/w/%EB%B6%84%ED%95%A0%EC%88%98
+ * 
+ */
+
 #include<stdio.h>
-#include<assert.h>
+#define MAX(a,b) (a)>(b) ? (a) : (b)
+#define MIN(a,b) (a)<(b) ? (a) : (b)
 
-int minFactor[1000001];
-void e(){
-    for (int i = 1 ; i <= 1000000 ; ++i) minFactor[i] = i;
-    for (int i = 2 ; i <= 1000; ++i){
-        if (minFactor[i] == i)
-            for (int j = i*i ; j <= 1000000 ; j += i)
-                if (minFactor[j] == j)
-                    minFactor[j] = i;
-    }
+#define NN 10000
+int D[NN][NN];
+int p(int n, int maximum){
+    if (n == 0) return 1;
+    if (D[n][maximum] > 0) return D[n][maximum];
+
+    long long int sum = 0;
+
+    // 몇 개를 집을까?
+    for (int i = MIN(maximum, n); i ; --i)
+        sum += p(n-i, i);
+
+    return D[n][maximum] = sum % 1000000;
 }
-
-int gcd(int p, int q){
-    return q == 0 ? p : gcd(q, p%q);
-}
-// bt 
-int D;
-int idx = 0;
-int factors[7];
-int bt(int i, int cnt, int mul){
-    if (i == idx){
-        int t = (D-1)/mul;
-        if (cnt %2 == 1) t=-t;
-        //printf("cnt, mul, t : %d %d %d\n", cnt, mul, t);
-        return t;
-    }
-    int ret = bt(i+1, cnt+1, mul*factors[i]);
-    ret += bt(i+1, cnt, mul);
-    return ret;
-}
-
-int count_proper_fraction(int d) {
-    D = d;
-    if (minFactor[d] == d) return d-1;
-
-    idx = 0;
-    int last = 0;
-    int dd = d;
-    while (dd > 1){
-        if (minFactor[dd] != last){
-            last = factors[idx++] = minFactor[dd];
+void solv_naive(){
+    // 백만은 커녕, 십만도 어렵다
+    for (int i = 1 ; i < NN ; ++i){
+        long long int r = p(i,i);
+        if (r % 10000 == 0) {
+            printf("%d %lld\n", i, r);
+            break;
         }
-        dd /= minFactor[dd];
     }
-
-    return bt(0, 0, 1);
-}
-int count_proper_fraction2(int d) { // slow version
-    int cnt = 0;
-    for (int n = 1 ; n < d ; ++n)
-        if (gcd(d, n) == 1)
-            cnt++;
-    return cnt;
 }
 
 int main(){
-    e();
-
-
-    for (int i = 1 ; i <= 100 ; ++i)
-        assert(count_proper_fraction2(i) == count_proper_fraction(i));
-
-    long long int ret = 0;
-    for (int i = 1 ; i <= 1000000; ++i)
-        ret += count_proper_fraction(i);
-    printf("Answer is : %lld\n", ret);
-
+    solv_naive();
+    for (int i = 1 ; i < 15 ; ++i){
+        long long int r = p(i,i);
+        printf("\t%d\t%lld\n", i, r);
+    }
 }

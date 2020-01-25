@@ -35,10 +35,12 @@ int phi(int n){
 int D;
 int idx = 0;
 int factors[7];
+
+// 1 ~ D-1 중 소인수들의 배수가 되는 수의 갯수를 제한다
 int bt(int i, int cnt, int mul){
     if (i == idx){
-        int t = (D-1)/mul;
-        if (cnt %2 == 1) t=-t;
+        int t = (D-1)/mul; //  1 ~ D-1 중 mul의 배수의 갯수
+        if (cnt %2 == 1) t=-t; // 선택한 소인수가 짝수이면 +, 홀수이면 - (0일때는 1의 배수 임)
         //printf("cnt, mul, t : %d %d %d\n", cnt, mul, t);
         return t;
     }
@@ -58,6 +60,7 @@ int count_proper_fraction(int d) {
     idx = 0;
     int last = 0;
     int dd = d;
+    // 소인수 분해
     while (dd > 1){
         if (minFactor[dd] != last){
             last = factors[idx++] = minFactor[dd];
