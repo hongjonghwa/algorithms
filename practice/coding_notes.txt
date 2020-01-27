@@ -1,0 +1,30 @@
+﻿1. bowbowbow님의 블로그 (http://bowbowbow.tistory.com/)
+  개인적으로 글들이 모두 예쁘고 깔끔하게 잘 정리되어 있다고 생각합니다. Union-Find, KMP, 세그먼트 트리와 게으른 전파, 단절점과 단절선, 뤼카의 정리, 그래프 간선의 분류 등의 글들이 있습니다. 몇몇 대회 후기와 풀이들이 있습니다.
+
+2. myungwoo님의 블로그 (http://blog.myungwoo.kr/)
+  최근 ACM ICPC 한국 대회, 월드 파이널 후기 및 풀이들이 잘 정리되어 있기로 유명한 블로그입니다. 고급 알고리즘들에 대한 설명글들도 많아 읽어볼 거리가 많습니다.
+
+3. koosaga님의 블로그 (http://amugelab.tistory.com/ or http://koosaga.myungwoo.kr/)  
+  2015 IOI와 2016 IOI 한국 대표로 참가하였던 구재현 학생의 블로그입니다. 수많은 대회 후기들, 풀이들, 알고리즘 설명들이 가득한 곳입니다. 
+
+4. Kriii(august14)님의 블로그 (http://kriii.tistory.com/)
+  SRM Win을 하셨던 크리님의 블로그입니다. 몇몇 Topcoder SRM 문제 풀이들과 2016 SCPC  예선 문제 풀이 및 후기가 있습니다.
+
+5. 기타
+cubelover님의 블로그 : http://cubelover.tistory.com/
+tncks0121님의 블로그 : http://tncks0121.tistory.com/
+hongjun7(appa)님의 블로그 : http://hongjun7.tistory.com/
+namnameseo님의 블로그 : http://namseo.ga/
+makesource님의 블로그 : http://makesource.tistory.com/
+http://kks227.blog.me/
+
+제가 아는 건 이 정도네요. 혹시 좋은 블로그 아시면 댓글로 남겨주세요.
+
+
+
+[My Guide]
+http://sgc109.tistory.com/category/Algorithm/Problem%20Solving
+http://plzrun.tistory.com/category/PS%20-%20OJ
+
+http://gooddaytocode.blogspot.kr/2016/05/boj.html
+https://fatc.club/2017/03/01/433

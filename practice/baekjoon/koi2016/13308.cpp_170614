@@ -1,0 +1,206 @@
+#define MIN(a,b) ((a)<(b) ? (a) : (b))
+#include<stdio.h>
+#include<string.h>
+
+template<class T>
+inline void SWAP(T &u, T &v){
+	T tmp = u; u = v; v = tmp;
+}
+
+int N,M;
+int GAS[2501];
+int DIST[2501][2501];
+int COST[2501][2501];
+
+struct Edge{
+	int v, w;
+	Edge *next;
+	Edge(){next = 0;}
+} edge[8001];
+
+Edge *head[2501];
+
+struct PP{
+	int first, second;
+	void report(){
+		printf( "[%d, %d] ", first, second);
+	}
+	bool operator<(const PP &rhs){ return first < rhs.first; }
+	bool operator<=(const PP &rhs){ return first <= rhs.first; }
+	bool operator>(const PP &rhs){ return first > rhs.first; }
+	PP(int f, int s){first = f; second = s;}
+	PP(){}
+};
+
+struct PQ{ // min heap
+	int n;
+	PP x[4000];
+	void insert(PP t){
+		int i, p ;
+		x[++n] = t;
+		for (i = n ; x[p=i/2] > x[i]  ; i = p)
+			SWAP(x[p], x[i]);
+	}
+	PP pop(){
+		int i, c;
+		PP t = x[1];
+		x[1] = x[n--];
+		for (i = 1 ;(c=2*i) <= n; i = c){
+			if (c+1 <= n && x[c+1] < x[c]) c++;
+			if (x[i] <= x[c])  break;
+			SWAP(x[i],x[c]);
+		}
+		return t;
+	}
+	void report(){
+		for (int i = 1 ; i <= n ; ++i){
+			x[i].report();
+		}
+		printf("\n");
+	}
+} pq;
+
+void report_graph(){
+	for (int i = 1 ; i <= N ; ++i){
+		printf ( "%d : ", i);
+		Edge *node = head[i];
+		while (node){
+			printf (" (%d, %d) " ,node->v, node->w);
+			node = node->next;
+		}
+		printf ( "\n");
+	}
+}
+void report(){
+	printf("####### : DIST \n ");
+	for (int i = 1 ; i <= N ; ++i){
+		for (int j = 1 ; j <= N ; ++j) printf("%d\t" , DIST[i][j]);
+		printf("\n");
+	}
+	printf("####### : COST \n ");
+	for (int i = 1 ; i <= N ; ++i){
+		for (int j = 1 ; j <= N ; ++j) printf("%d\t" , COST[i][j]);
+		printf("\n");
+	}
+}
+void report2(){
+	printf("####### : DIST2 \n ");
+	for (int i = 1 ; i <= N ; ++i){
+		//int *mindist = (int*)DIST[i];
+		int *mindist = DIST[i];
+		for (int j = 1 ; j <= N ; ++j) printf("%d\t" , mindist[j]);
+		printf("\n");
+	}
+}
+void dijkstra(int start){
+	//printf("start : %d \n", start);
+	pq.n = 0;
+	int *mindist = DIST[start];
+	mindist[start] = 0;
+	pq.insert(PP(0,start));
+	while (pq.n){
+		PP t = pq.pop();
+		int here = t.second;
+		int dist = t.first;
+		//printf("  here, dist : %d %d \n", here,dist);
+		if (mindist[here] < dist) continue;
+		Edge * node = head[here];
+		while (node){
+			int there = node->v;
+			int there_dist = node->w;
+			//printf("check : %d, %d, %d \n", start, there, mindist[there]);
+			if (mindist[there] > dist+there_dist){
+				mindist[there] = dist+there_dist;
+				//printf("upd : %d, %d, %d \n", start, there, mindist[there]);
+				pq.insert(PP(dist+there_dist, there));
+			}
+			node = node->next;
+		}
+	}
+	
+}
+int solv(){
+	scanf("%d%d", &N, &M);
+	memset(DIST, 63, sizeof(DIST));
+	memset(COST, 63, sizeof(COST));
+	for (int i = 1 ; i <= N ; ++i) scanf("%d", &GAS[i]);
+	for (int i = 1 ; i <= N ; ++i) 
+		COST[i][i] = DIST[i][i] = 0;
+	//report();
+	int u,v,w;
+	Edge *e = edge;
+	for (int i = 0 ; i < M ; ++i){
+		scanf("%d%d%d", &u, &v, &w);
+		// floyd 코드
+		// disjkt 에서는 최단 거리 갱신시에만 간선이 추가되기 때문에,
+		// 아래 코드가 있으면 실행이 안됨
+		//DIST[u][v] = DIST[v][u] = w;
+
+
+		e->v = v;
+		e->w = w;
+		e->next = head[u];
+		head[u] = e++;
+
+		e->v = u;
+		e->w = w;
+		e->next = head[v];
+		head[v] = e++;
+
+
+		COST[u][v] = GAS[u] * w;
+		COST[v][u] = GAS[v] * w;
+	}
+	//report();
+	//report_graph();
+	/* floyd 
+	for (int k = 1 ; k <= N ; ++k){
+		for (int i = 1 ; i <= N ; ++i){
+			for (int j = 1 ; j <= N ; ++j){
+				if (DIST[i][j] > DIST[i][k] + DIST[k][j])
+					DIST[i][j] = DIST[i][k] + DIST[k][j];
+			}
+		}
+	}
+	*/
+	for (int k = 1 ; k <= N ; ++k){
+		dijkstra(k);
+	}
+	//report();
+	//report2();
+	for (int k = 1 ; k <= N ; ++k){
+		for (int i = 1 ; i <= N ; ++i){
+			for (int j = 1 ; j <= N ; ++j){
+				int temp = MIN(
+						DIST[i][j] * GAS[i], // i에서 가스를 다 넣을  시 
+						COST[i][k] + COST[k][j] ); // k에서 분할 정복
+				if (COST[i][j] > temp) COST[i][j] = temp;
+			}
+		}
+	}
+	//report();
+	return COST[1][N];
+}
+
+int main(){
+	printf("%d \n", solv());
+
+	/*
+	pq.insert(PP(8,1));
+	pq.insert(PP(8,1));
+	pq.insert(PP(8,1));
+	pq.insert(PP(3,1));
+	pq.insert(PP(4,1));
+	pq.insert(PP(5,1));
+	pq.insert(PP(1,1));
+	pq.insert(PP(2,1));
+	pq.report();
+	pq.pop();
+	pq.pop();
+	pq.report();
+	pq.pop();
+	pq.pop();
+	pq.report();
+	*/
+}
+

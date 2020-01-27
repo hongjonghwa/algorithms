@@ -1,0 +1,100 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+#define MAXN 500005
+#define mp make_pair
+#define pb push_back
+#define all(v) (v).begin(), (v).end()
+typedef pair<int, int> pii;
+ 
+static int N;
+static int B[MAXN];
+ 
+struct Z{
+    int a, b;
+} A[MAXN];
+ 
+struct NODE{
+    NODE(): arr_y(), left(0), right(0) {}
+    vector <int> arr_y;
+    NODE *left, *right;
+} *root;
+ 
+void add(NODE *now, int s, int e, int n, int v)
+{
+    if (n < s || n > e) return;
+    now->arr_y.pb(v);
+    if (s == e) return;
+    if (!now->left)
+        now->left = new NODE(), now->right = new NODE();
+    int m = (s+e)>>1;
+    add(now->left, s, m, n, v);
+    add(now->right, m+1, e, n, v);
+}
+ 
+void init(int n, int s[], int e[])
+{
+    N = n;
+    for (int i=1;i<=N;i++)
+        A[i].a = s[i-1], A[i].b = e[i-1];
+    sort(A+1, A+N+1, [](const Z &a, const Z &b){
+        return a.b < b.b;
+    });
+    for (int i=1;i<=N;i++) B[i] = A[i].b, A[i].b = i;
+    sort(A+1, A+N+1, [](const Z &a, const Z &b){
+        return a.a < b.a;
+    });
+    root = new NODE();
+    for (int i=1;i<=N;i++) add(root, 1, N, A[i].b, A[i].a);
+}
+ 
+int count(NODE *now, int s, int e, int l, int r, int sy, int ey)
+{
+    if (e < l || r < s || l > r) return 0;
+    if (l <= s && e <= r)
+        return upper_bound(all(now->arr_y), ey) - lower_bound(all(now->arr_y), sy);
+    int m = (s+e)>>1;
+    return count(now->left, s, m, l, r, sy, ey) + count(now->right, m+1, e, l, r, sy, ey);
+}
+ 
+int get_right(NODE *now, int s, int e, int l, int r, int sy, int ey, int &left)
+{
+    if (e < l || r < s) return 0;
+    if (l <= s && e <= r){
+        int cnt = upper_bound(all(now->arr_y), ey) - lower_bound(all(now->arr_y), sy);
+        if (cnt < left){ left -= cnt; return 0; }
+    }
+    if (s == e) return s;
+    int m = (s+e)>>1;
+    int k = get_right(now->left, s, m, l, r, sy, ey, left);
+    if (k) return k;
+    return get_right(now->right, m+1, e, l, r, sy, ey, left);
+}
+ 
+int can(int M, int K[])
+{
+    sort(K, K+M);
+    stack <pii> stk;
+    stk.push(mp(0, N+1));
+    for (int i=0;i<M;i++){
+        int left = K[i], last_x = lower_bound(B+1, B+N+1, K[i]) - B;
+        while (!stk.empty() && stk.top().second < last_x) stk.pop();
+        while (!stk.empty()){
+            int cnt = count(root, 1, N, last_x, stk.top().second, stk.top().first+1, K[i]);
+            if (cnt < left){
+                left -= cnt;
+                last_x = stk.top().second+1;
+                stk.pop();
+            }else{
+                int x = get_right(root, 1, N, last_x, stk.top().second, stk.top().first+1, K[i], left);
+                stk.push(mp(K[i], x));
+                break;
+            }
+        }
+        if (stk.empty()) return 0;
+    }
+    return 1;
+}
+
+
+출처: http://blog.myungwoo.kr/90 [PS 이야기]

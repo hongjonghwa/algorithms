@@ -1,0 +1,57 @@
+꽉찬집합
+fullPizza = (1<<20) -1;
+원소추가
+toppings != (1<<p);
+포함여부확인
+if (toppings & (1<<p)) cout << "in" << endl
+삭제
+toppings -=(1<<p) // 있을때만 가능
+toppings &= ~(1 << p);
+
+
+토글
+toppings ^= (1<<p);
+합집합
+a | b
+교집합
+a&b
+차집합
+a & ~b
+하나에만 포함
+a ^ b
+크기
+int bitCount(int x){
+	        if (x==0) return 0;
+	        return x%2 + bitCount(x/2);
+}
+__builtin_popcountl
+
+최소원소 찾기
+int firstTopping = (topping & -toppings); //2의 보수
+최소원소 지우기
+toppings &= (toppings -1);
+
+모든 부분 집합 순회
+for (int subseq = pizza; subset; subset=((subset-1)&pizza)){
+
+}
+
+
+
+
+unsigned long bitint = 0;
+bitint = (1ul << 32);
+
+cout << "##########################" << endl;
+cout << "popcount : " << __builtin_popcount(bitint) << endl;
+cout << "popcountl : " << __builtin_popcountl(bitint)<< endl;
+
+cout << "ctz : " << __builtin_ctz(bitint) << endl;
+cout << "clz : " << __builtin_clz(bitint) << endl;
+
+cout << "ctzl : " << __builtin_ctzl(bitint) << endl;
+cout << "clzl : " << __builtin_clzl(bitint) << endl;
+
+cout << "##########################" << endl;
+cout << endl;
+
