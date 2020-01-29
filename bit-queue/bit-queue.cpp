@@ -75,22 +75,15 @@ int main(){
 	}
 	printf("\n");
 
-	offset = 0;
-	for (int i = 0; i < X_LEN; ++i) {
-		unsigned int r = deque(data, offset, X[i][0]);
-		offset += X[i][0];
-		assert(r == X[i][1]);
+	for (int loop = 0 ; loop < 2 ; ++loop){ // 2회 반복
+		offset = 0;
+		for (int i = 0; i < X_LEN; ++i) {
+			unsigned int r = deque(data, offset, X[i][0]);
+			offset += X[i][0];
+			assert(r == X[i][1]);
+		}
+		printf("\n");
 	}
-	printf("\n");
 
-
-	// again!
-	offset = 0;
-	for (int i = 0; i < X_LEN; ++i) {
-		unsigned int r = deque(data, offset, X[i][0]);
-		offset += X[i][0];
-		assert(r == X[i][1]);
-	}
-	printf("\n");
 
 }
