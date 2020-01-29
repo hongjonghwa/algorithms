@@ -239,11 +239,7 @@ void testUnitlist(int no){
 	for (int i = 0; i < 9 ; ++i )
 		printf(" (%d,%d)", unitlist[no][i][0], unitlist[no][i][1] );
 	printf ("\n");
-
-
 }
-
-
 
 
 
@@ -259,7 +255,7 @@ int main(){
 	reportGrid();
 	
 	/* 
-	makeCandidates(); // 테스트를 위해
+	makeCandidates(); // 테스트
 	reportCandidates();
 	*/
 	search();

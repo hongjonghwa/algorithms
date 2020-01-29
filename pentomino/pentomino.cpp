@@ -1,10 +1,12 @@
 #define N 5
+#define COL 5
+#define ROW 12
 #include<stdio.h>
 #include<string.h>
-#include"block.h"
+#include"pentomino-blocks.h"
 
 template<class T>
-inline void SWAP(T &a, T &b){
+inline void SWAP(T & a, T & b){
 	T tmp = a; a = b; b = tmp;
 }
 
@@ -61,7 +63,7 @@ void init_brick2coordinate(){
 		int idx = 0;
 		for (int i = 0; i < N; ++i)
 			for (int j = 0; j < N; ++j)
-				if (BLOCK[k][i][j] == '#'){
+				if (BLOCK[k][i][j] == '#'){ // 첫번째 만나는 #의 위치에 따라 상대 좌표로 변환
 					if (y == -1){
 						y = i;
 						x = j;
@@ -165,19 +167,13 @@ void print_node(Node & b){
 	: 20칸 1줄을 채우는 방법이 너무 많음... 더 적은 가지수를 먼저!!!
 */
 
-/*
-int ROW = 3;
-int COL = 20;
-*/
-int ROW = 12;
-int COL = 5;
 
 int BOARD[100][100];
 int VISIT[12];
 
 int answer_cnt = 0;
 
-void print_board(){
+void report_board(){
 	for (int i = 0 ; i < ROW ; ++i){
 		for (int j = 0 ; j < COL ; ++j){
 			printf("%c" , (BOARD[i][j] ? 'A'+BOARD[i][j]-1 : ' '));
@@ -220,8 +216,8 @@ void bt(){
 	}
 	//printf ("%d %d \n", y, x);
 	if (y == -1){
-		printf("Congraturation!!!\n");
-		print_board();
+		printf("Pick!!!\n");
+		report_board();
 		++answer_cnt;
 		printf(" %d \n ", answer_cnt);
 		return;
@@ -233,7 +229,7 @@ void bt(){
 			//printf(" %d %d %d %d %d \n", y,x,next,c,1);
 			if (cover(y,x,next,c,1)) {
 				//printf("############################\n");
-				//print_board();
+				//report_board();
 				bt();
 			}
 			cover(y,x,next,c,-1);
