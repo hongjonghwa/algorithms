@@ -1,0 +1,3 @@
+g++ -g main.cpp fastrand.cpp $1 -o g.out
+./g.out
+
