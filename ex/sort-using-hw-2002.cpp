@@ -2,9 +2,13 @@
 #include<stdlib.h>
 #include<assert.h>
 #include<algorithm>
+#include<time.h>
+#include <functional>
+
+
 #define SIZE 1048576
 #define IDX 2048
-// using namespace std;
+
 
 void my_sort(unsigned int DATA[SIZE]);
 
@@ -78,7 +82,6 @@ int main(){
 
 /* My implementation */
 void my_sort(unsigned int DATA[SIZE]);
-
 
 
 void my_sort(unsigned int DATA[SIZE]){

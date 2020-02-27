@@ -1,0 +1,3 @@
+gcc main.cpp
+time ./a.out
+rm a.out

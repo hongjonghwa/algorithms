@@ -1,0 +1,3 @@
+g++ main.cpp solution.cpp
+./a
+rm a.exe
