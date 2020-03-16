@@ -7,7 +7,7 @@ inline int swap_int(int& x, int& y){
 	int t=x;x=y;y=t;
 }
 template<class T>
-inline void swapT(T& a, T& b){
+inline void swapT(T & a, T & b){
 	T tmp(a);
 	a = b;
 	b = tmp;
