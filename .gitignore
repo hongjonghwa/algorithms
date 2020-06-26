@@ -1,4 +1,7 @@
 .DS_Store
-a.out
-g.out
-a.exe
+*.out
+
+# Visual Studio
+*.obj
+*.exe
+*.pdb
