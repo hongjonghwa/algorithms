@@ -5,7 +5,6 @@ https://visualgo.net/
 
 # Todos
 - searching: z-algorithm 과 종만북 접미사 배열(KMR) 비교
-- "알고리즘 트레이닝" 구매
 - cses grid-path 완성
 
 
