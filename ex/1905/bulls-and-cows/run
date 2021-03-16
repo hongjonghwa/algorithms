@@ -1,3 +1,0 @@
-g++ main.cpp solution.cpp
-time ./a.out
-rm a.out

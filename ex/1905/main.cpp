@@ -37,21 +37,24 @@ int check(unsigned char guess[200]){
 
 
 int main(){
-    int ret = 0;
+
+    int score = 0;
     int tt= 0;
     for (int t = 1 ; t <= 10 ; ++t){
         build();
         check_cnt = 0;
         long long int clk = clock();
         test(GUESS);
-
-        printf("[%d] STEP %d, time %f\n", t, check_cnt,
-                (double(clock())-clk)/CLOCKS_PER_SEC);
-
-        ret += (clock()-clk) * 1000 / CLOCKS_PER_SEC;
+        double time = (double(clock())-clk)/CLOCKS_PER_SEC;
+        
+        int fail_cnt = 0;
         for (int i = 0 ; i < 200 ; ++i)
-            if (KEY[i] != GUESS[i]) ret += 10000;
-        //ret += 
+            if (KEY[i] != GUESS[i]) ++fail_cnt;
+            
+        score += time * 1000;
+        score += 10000 * fail_cnt;
+
+        printf("[%d] CHECK %d, FAIL %d, time %f\n", t, check_cnt, fail_cnt, time);
     }
-    printf("Score is %d\n", ret);
+    printf("Score is %d\n", score);
 }
