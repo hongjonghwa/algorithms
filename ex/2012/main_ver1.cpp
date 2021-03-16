@@ -74,7 +74,7 @@ range batch_move(range r){ // appending
 }
 void expand(){
     // first loop 
-    /*
+
     int trays = N;
     int start = 0, end = trays-1;
     int nexttrays = trays/2;
@@ -90,7 +90,7 @@ void expand(){
         nexttrays = trays/2;
     }
     printf ("last tray is : %d\n", end);
-    */
+
 
     // second 
     range n(0, N-1);
