@@ -24,19 +24,6 @@ inline unsigned int fastrand(){
     return (g_seed>>16)&0xFFFFFFF;
 }
 
-int comp_ui(const void* p1, const void* p2)
-{ 
-    unsigned int i1 = *(unsigned int*) p1;
-    unsigned int i2 = *(unsigned int*) p2;
-    if (i1 > i2) return 1;
-    if (i1 == i2) return 0;
-   
-    return -1;
-   /* or simply: return i1 - i2; */
-}
-int comp_ui_gt(const void* p1, const void* p2){
-    return -comp_ui(p1,p2);
-}
 // 오름차순
 int comp_s (const void * p1, const void * p2)
 {
@@ -69,8 +56,6 @@ int main(){
     SCORE += clock() - clk;
     
     printf("Score: %lld\n", SCORE * 1000 / CLOCKS_PER_SEC);
-    for (int i = 0 ; i < 10 ; ++i){
-    }
     for (int i = 0 ; i < SIZE ; ++i){
         assert(BAK_DATA[i] == DATA[i]);
     }
@@ -81,9 +66,21 @@ int main(){
 }
 
 /* My implementation */
-void my_sort(unsigned int DATA[SIZE]);
-
+int comp_ui(const void* p1, const void* p2)
+{ 
+    unsigned int i1 = *(unsigned int*) p1;
+    unsigned int i2 = *(unsigned int*) p2;
+    if (i1 > i2) return 1;
+    if (i1 == i2) return 0;
+   
+    return -1;
+   /* or simply: return i1 - i2; */
+}
+int comp_ui_gt(const void* p1, const void* p2){
+    return -comp_ui(p1,p2);
+}
 
 void my_sort(unsigned int DATA[SIZE]){
+    // not using hw... 
     qsort(DATA, SIZE, sizeof(unsigned int), comp_ui_gt);
 }
