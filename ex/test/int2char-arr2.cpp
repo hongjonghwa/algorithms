@@ -25,10 +25,10 @@ int main(){
 			x[j][i] = j*10 + i;
 	report_addr();
 
-	*((int*)x) = 1000;
+	*((int*)x) = 255;
 	*((int*)(x+1)) = 65535;
-	*((int*)(x+2)) = 4;
-	*((int*)(x+3)) = 1;
+	*((int*)(x+2)) = 1;
+	*((int*)(x+3)) = 2;
 
 	//void* xp = (void*) x;
 	char* xp = (char*) x;

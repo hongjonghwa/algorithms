@@ -1,7 +1,7 @@
 #define SIZE 64
 
-int img[SIZE*2][SIZE*2];
-int S[SIZE*2][SIZE*2];
+int img[SIZE+1][SIZE+1];
+int S[SIZE+1][SIZE+1];
 
 int solve(unsigned char image[SIZE][SIZE]){
     // 편의를 위해 1-indexed 로 수정

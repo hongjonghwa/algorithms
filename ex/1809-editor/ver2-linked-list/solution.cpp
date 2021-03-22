@@ -1,4 +1,4 @@
-// ½ÃÇè½Ã°£¿¡ Ç®¾ú´ø ¹æ½Ä --;
+// ì‹œí—˜ì‹œê°„ì— í’€ì—ˆë˜ ë°©ì‹ --;
 #include<stdio.h>
 #include<assert.h>
 
@@ -28,13 +28,13 @@ uint free_l;
 uint _debug_cnt, _debug_chars;
 
 /* 
-  Head pointer °¡ ÇÊ¿ä¾ø´Â ÀÌÀ¯ . => °á·Ğ : linked list ´Â *head ¸¦ Á¤ÀÇÇÏÀÚ
-  -> questionÀÇ ¿ä°Ç¿¡ µû¶ó Ã¹ ¹øÂ° ¶óÀÎÀº ¹Ù²ğ ¼ö ¾ø´Ù. ÇÏ¿© l[0] À» head·Î »ç¿ëÇÑ´Ù.
-     Data Çì´õ ¶Ç³­ l[0].xhead ¸¦ »ç¿ëÇÏ¸é µÈ´Ù 
-  -> ½ÃÇè¿¡¼­´Â l[0]À» head ·Î »ç¿ëÇÏ°í l[1] ºÎÅÍ µ¥ÀÌÅÍ »ç¿ë --> ´õ Çò°¥·ÈÀ½ ±×³É head pointer ¸¦ ¸¸µå´Â °Ô ³´´Ù.
-     x[0]Àº \nÀ» ³Ö°í, ±×³É Çìµå·Î »ç¿ë( x[0] Çì´õ´Â ¾È ¹Ù²ğ °ÍÀ» ¾Ë¾Ò´Ù. 
+  Head pointer ê°€ í•„ìš”ì—†ëŠ” ì´ìœ  . => ê²°ë¡  : linked list ëŠ” *head ë¥¼ ì •ì˜í•˜ì
+  -> questionì˜ ìš”ê±´ì— ë”°ë¼ ì²« ë²ˆì§¸ ë¼ì¸ì€ ë°”ë€” ìˆ˜ ì—†ë‹¤. í•˜ì—¬ l[0] ì„ headë¡œ ì‚¬ìš©í•œë‹¤.
+     Data í—¤ë” ë˜ë‚œ l[0].xhead ë¥¼ ì‚¬ìš©í•˜ë©´ ëœë‹¤ 
+  -> ì‹œí—˜ì—ì„œëŠ” l[0]ì„ head ë¡œ ì‚¬ìš©í•˜ê³  l[1] ë¶€í„° ë°ì´í„° ì‚¬ìš© --> ë” í—·ê°ˆë ¸ìŒ ê·¸ëƒ¥ head pointer ë¥¼ ë§Œë“œëŠ” ê²Œ ë‚«ë‹¤.
+     x[0]ì€ \nì„ ë„£ê³ , ê·¸ëƒ¥ í—¤ë“œë¡œ ì‚¬ìš©( x[0] í—¤ë”ëŠ” ì•ˆ ë°”ë€” ê²ƒì„ ì•Œì•˜ë‹¤. 
       
-  => Çì´õ°¡ ÇÊ¿äÇÏ¸é *head ¸¦ ¼±¾ğÇÏÀÚ, ¾È ±×·¯¸é ´õ Çò°¥¸²
+  => í—¤ë”ê°€ í•„ìš”í•˜ë©´ *head ë¥¼ ì„ ì–¸í•˜ì, ì•ˆ ê·¸ëŸ¬ë©´ ë” í—·ê°ˆë¦¼
 */
 
 void create() {
@@ -57,8 +57,8 @@ void create() {
 void put_char(char c) {
 	//_debug_verify('p');
 	if (cur_x == 0 || cur_l == 0) return;
-	assert(cur_x && cur_l); // ¾ğÁ¦³ª Æ÷ÀÎÆ®°¡ Á¸Àç
-	// µÚ¿¡ ºÙÀÎ´Ù
+	assert(cur_x && cur_l); // ì–¸ì œë‚˜ í¬ì¸íŠ¸ê°€ ì¡´ì¬
+	// ë’¤ì— ë¶™ì¸ë‹¤
 	x[free_x].data = c;
 	x[free_x].next = cur_x->next;
 	x[free_x].prev = cur_x;
@@ -77,17 +77,17 @@ void put_backspace() {
 	//_debug_verify('b');
 	if (cur_x == &x[0]) {
 		// printf("Backspace in start of document!!!!\n");
-		// assert(cur_x == 0 && cur_pos == 0); // Ã³À½
+		// assert(cur_x == 0 && cur_pos == 0); // ì²˜ìŒ
 		return; // do nothing!
 	}
 
-	/* ÇöÀç ³ëµå »èÁ¦ */
+	/* í˜„ì¬ ë…¸ë“œ ì‚­ì œ */
 	cur_x->prev->next = cur_x->next;
 	if (cur_x->next) cur_x->next->prev = cur_x->prev;
 
-	/* ¶óÀÎ ¸ÓÁö */
+	/* ë¼ì¸ ë¨¸ì§€ */
 	if (cur_x->data == '\n') { // line merge at start
-		assert(cur_pos == 0); // ¶óÀÎÀÇ Ã³À½ÀÌ´Ù!
+		assert(cur_pos == 0); // ë¼ì¸ì˜ ì²˜ìŒì´ë‹¤!
 		cur_l->prev->next = cur_l->next;
 		if (cur_l->next) cur_l->next->prev = cur_l->prev;
 		cur_pos = cur_l->prev->size;
@@ -100,8 +100,8 @@ void put_backspace() {
 	}
 
 	cur_pos--;
-	cur_l->size--; // ¿©±â¼­ ½Ç¼ö (1) : ±æÀÌ°¡ ¾È ¸ÂÀ¸¸é cursor_up/down ¿¡¼­ position Ã£À» ¶§ null ¶³¾îÁü (¾Æ¸¶ ½ÃÇè¿¡¼­µµ Àß¸øÇÑ µí )
-	cur_x = cur_x->prev; // ¿©±âµµ ½Ç¼ö (2) : ½ÃÇè¶§´Â Á¦´ë·Î Çß¾ú³ª? ±â¾ïÀÌ ¾È³²,,, ==> °á°úÀûÀ¸·Î Ä¡¸íÀûÀÎ ¼Ò¼ÒÇÑ ¹ö±×¸¦ Ã£±â°¡ ¾î·Á¿üÀ½.
+	cur_l->size--; // ì—¬ê¸°ì„œ ì‹¤ìˆ˜ (1) : ê¸¸ì´ê°€ ì•ˆ ë§ìœ¼ë©´ cursor_up/down ì—ì„œ position ì°¾ì„ ë•Œ null ë–¨ì–´ì§ (ì•„ë§ˆ ì‹œí—˜ì—ì„œë„ ì˜ëª»í•œ ë“¯ )
+	cur_x = cur_x->prev; // ì—¬ê¸°ë„ ì‹¤ìˆ˜ (2) : ì‹œí—˜ë•ŒëŠ” ì œëŒ€ë¡œ í–ˆì—ˆë‚˜? ê¸°ì–µì´ ì•ˆë‚¨,,, ==> ê²°ê³¼ì ìœ¼ë¡œ ì¹˜ëª…ì ì¸ ì†Œì†Œí•œ ë²„ê·¸ë¥¼ ì°¾ê¸°ê°€ ì–´ë ¤ì› ìŒ.
 
 	//_debug_verify2('b',-1);
 }
@@ -178,14 +178,14 @@ void cursor_left(int i) {
 	while (i--) {
 		if (cur_pos > 0) {
 			cur_pos--;
-			cur_x = cur_x->prev; // ¿À·ù(ÀÌ»óÇÏ´Ù)!
+			cur_x = cur_x->prev; // ì˜¤ë¥˜(ì´ìƒí•˜ë‹¤)!
 		}
 		else if (cur_line > 0) {
 			cur_l = cur_l->prev;
 			cur_line--;
 			cur_pos = cur_l->size - 1;
 
-			cur_x = cur_x->prev; // ¿À·ù(ÀÌ»óÇÏ´Ù)!
+			cur_x = cur_x->prev; // ì˜¤ë¥˜(ì´ìƒí•˜ë‹¤)!
 		}
 		else; // do nothing, line of start
 	}

@@ -1,4 +1,4 @@
-﻿// 2 - Stack
+﻿// Stack
 /*
 Double Linked List 보다 조금 쉽거나 비슷했다.
 Struct Line 안에 버그를 찾기 어려웠다. 스캐폴드가 없는 시험때였으면 아마 못 찾았을 것이다. --> 실패

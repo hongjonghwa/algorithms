@@ -16,6 +16,7 @@ int solve3(unsigned char image[SIZE][SIZE]){
     for (int i = 0 ; i <= SIZE ; ++i)
         for (int j = 0 ; j <= SIZE ; ++j){
             int s = ii[i][j] + ii[i+1][j+1] - ii[i+1][j] - ii[i][j+1];
+            // 아래와 같은 방식으로는 사각형의 시작점을 알기 힘들다...
             if ( s > 0 && ii[i+1][j+1] > ii[i][j]) ss[i][j] = 1;
             else if ( s > 0 && ii[i+1][j+1] < ii[i][j]) ss[i][j] = 4;
             else if ( s < 0 && ii[i+1][j] < ii[i][j+1]) ss[i][j] = 2;
@@ -120,7 +121,10 @@ int solve1(unsigned char image[SIZE][SIZE]){
     return 1;
 }
 int solve(unsigned char image[SIZE][SIZE]){
-    //solve1(image); // 멍청한 방법
-    solve2(image); // 1, -1 엣지, 선수 방법
-    //solve3(image); // 1, 2, 3, 4 엣지 --> 오히려 속도가 떨어짐
+    int ret;
+    // ret = solve1(image); // 멍청한 방법
+    // 
+    ret = solve2(image); // 1, -1 엣지, 선수 방법
+    // ret = solve3(image); // 1, 2, 3, 4 엣지 --> 오히려 속도가 떨어짐
+    return ret;
 }

@@ -3,7 +3,6 @@
 using namespace std;
 
 int cnt[10];
-
 struct Init{ 
     Init(){
 	    for (int i = 0; i < 10 ; i++)
@@ -32,7 +31,7 @@ int main(){
 	for (int i = 0; i < 10 ; ++i)
 		cout << i2.x[i] << " ";
 	cout << endl;
-    cout << i2.a << "," <<i2.b << endl;
+    cout << i2.a << "," <<i2.b << endl; // <-- warning 발생
 
 	return 0;
 }
