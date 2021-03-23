@@ -6,7 +6,7 @@
 #define MIN(x,y) ( (x) < (y) ? (x) : (y) )
 using namespace std;
 
-template<class T>
+template<typename T>
 inline void SWAP(T &a, T &b) {
 	T tmp = a;	a = b;	b = tmp;
 }

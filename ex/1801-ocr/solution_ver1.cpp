@@ -33,10 +33,6 @@ void _calc(char photo[16][64], int dy, int dx, int n){
 			}
         }
     }
-	int d = 0;
-    for (int y = 0 ; y < 8; ++y)
-        for (int x = 0 ; x < 8 ; ++x)
-            if (photo[y+dy][x+dx] != alpha[n][y][x]) d ++;
 
 	// bb 노이즈 아님 _tt 에서 뺌
 	// ww 노이즈 아님

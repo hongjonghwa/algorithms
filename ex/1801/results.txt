@@ -1,1 +1,0 @@
-first impl. RESULT: 780 (39%)

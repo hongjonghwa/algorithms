@@ -2,7 +2,6 @@
 #include<string.h>
 #include<time.h>
 void test(unsigned char map[4096][4096]);
-void test2(unsigned char map[4096][4096], unsigned char orgmap[4096][4096]);
 
 unsigned char orgmap[4096][4096];
 unsigned char map[4096][4096];
@@ -85,6 +84,7 @@ void build(){
 	
 	memcpy(orgmap, map, 16777216);
 
+
 	// shuffle
 	for (int i = 0 ; i < 1024 ; ++i){
 		int y1 = rand() % 16;
@@ -96,7 +96,9 @@ void build(){
 			memcpy(&map[y1*256+l][x1*256], &map[y2*256+l][x2*256], 256);
 			memcpy(&map[y2*256+l][x2*256], dummy2, 256);
 		}
+		test(map);
 	}
+	
 
 	/*
 	
@@ -109,18 +111,24 @@ void build(){
 int main(){
 	srand(0);
 	int ret = 0;
+	int success = 0, fail = 0;
 	for (int t = 0 ; t < 10 ; ++t){
 		build();
 		
 		long clk = clock();
-		test2(map, orgmap);
+		test(map);
 		ret += (clock()-clk) / (CLOCKS_PER_SEC/1000);
 		
 		if (memcmp(map, orgmap, 16777216) != 0){
 			ret += 10000;
+			fail++;
+		}else{
+			success++;
 		}
+		//break;
 	}
 	
-	printf("RET : %d\n", ret);
+	printf("Score : %d\n", ret);
+	printf("%d / %d (success / try)\n", success, success + fail);
 	
 }

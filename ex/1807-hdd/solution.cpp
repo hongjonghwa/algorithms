@@ -134,21 +134,19 @@ void hdd_write(char *file, int offset, int size, char data[4096]) {
 	debug_w_cnt++;
 
 	// if (debug_w_cnt % 4000 == 0) optimize(); // 하드의 데이터를 변경하는 도중에 optimize를 시행하면 좋겠지만 구현이 난감하다. 시행 도중에 한 번만 시행
-	if (debug_w_cnt == 3500) optimize(); // 더 빨라지지 않는다, 나머지 연산(%)은 부담 되지 않는다
+	// if (debug_w_cnt == 3500) optimize(); // 더 빨라지지 않는다
+	if (debug_w_cnt % 1000 == 0) optimize(); // 무난
 
 	int fno = findno(file);
 
 	int h = headno[fno];
-	int n = h; // next(head) 쓰고 다음으로 밀어야 할 노드 번호
-	int p = -1; // prev
+	// n (next), p (prev) : hdd_write 의 next 와 prev 블록.
+	int n = h, p = -1;
 
-	// if (head == -1 && offset > 0) printf("IMPOSSIBLE!");
 	assert(h != -1 || offset == 0); // head가 없으면, offset 이 반드시 0 이다.
 
-	while (n != -1 &&  offset >= sinfo[n].size) // 1) size 가 0이면 무조건 진행 2) offset = size 라도 진행 3) offset > size 진행
-	{
+	while (n != -1 &&  offset >= sinfo[n].size){ // 1) size 가 0이면 무조건 진행 2) offset = size 라도 진행 3) offset > size 진행	
 		offset -= sinfo[n].size;
-
 		p = n;
 		n = sinfo[n].nextno; // 다음으로 이동
 		// if (DEBUG) printf("next no : %d \n", n);
@@ -185,7 +183,7 @@ void hdd_write(char *file, int offset, int size, char data[4096]) {
 	// split
 
 	assert(size > 0);// 기록할 size
-	int scnt = (size + 1023) / 1024; // sector 수
+	int scnt = (size + 1023) / 1024; // sector 수 (ceiling)
 	if (DEBUG) printf("scnt : %d \n", scnt);
 	// no 와 newno 사이에 셀을 하나씩 삽입
 	// p == -1 이면, 현재셀이 헤드임.
@@ -244,10 +242,10 @@ void hdd_delete(char *file, int offset, int size) {
 	
 	while(size > 0){
 		
-		if (offset + size >= sinfo[n].size) { // 끝까지 삭제해야 한다.
+		if (offset + size >= sinfo[n].size) { // offset 위치부터 끝까지 삭제
 			
 			assert(n != -1);
-			if (offset == 0) { // 처음부터
+			if (offset == 0) { // 처음부터 끝까지 삭제.. (sector free)
 				if (DEBUG) printf("hdd_del3 offset:%d size:%d n:%d sec_size:%d \n", offset, size, n, sinfo[n].size);
 				size -= sinfo[n].size;
 
@@ -277,7 +275,7 @@ void hdd_delete(char *file, int offset, int size) {
 				offset = 0;
 			}
 		}
-		else { // 중간까지 삭제 --> 남은 데이터를 앞으로 땡겨야 한다. 
+		else { // offset 위치부터 중간까지 삭제 --> 남은 데이터를 앞으로 땡겨야 한다. 
 			assert(offset + size < sinfo[n].size);
 			if (DEBUG) printf("hdd_del5 offset:%d size:%d n:%d sec_size:%d \n", offset, size, n, sinfo[n].size);
 			char d[1024];

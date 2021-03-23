@@ -5,11 +5,13 @@
 #include"alpha.h"
 
 
+
 extern char alpha[10][8][8];
 extern int recog(char photo[16][64]);
 
 static int _debug = 0;
 static int _debug_flag = 0;
+// static int _LOOP = 2000;
 static int _LOOP = 2000;
 
 
@@ -45,6 +47,7 @@ void shot(int number) {
 }
 
 int main() {
+	// srand(42);
 	int RESULT = 0;
     long long int clk = clock();
 	for (int c = 0; c < _LOOP; ++c) {
@@ -63,10 +66,11 @@ int main() {
 			printf("\n");
 			for (int y = 0; y < 16; ++y) { for (int x = 0; x < 64; ++x) printf("%d", photo[y][x] == 8); printf("\n"); } printf("\n");
 			printf("\n");
-			printf("Loop %d answer %d guess %d \n\n", c, number, guess);
+			// printf("Loop %d answer %d guess %d \n\n", c, number, guess);
 			_debug_flag = 0;
 		}
+		if (_debug) printf("Loop %d answer %d guess %d \n\n", c, number, guess);
 	}
-	printf("RESULT: %d (%d%%)\n", RESULT, RESULT * 100 / _LOOP);
+	printf("RESULT: %d (SUCCESS %d%%)\n", RESULT, RESULT * 100 / _LOOP);
 	printf("Execution Time: %f \n", ((double)clock() - clk) / CLOCKS_PER_SEC);
 }
