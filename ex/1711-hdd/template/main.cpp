@@ -3,7 +3,8 @@
 #include<string.h>
 #include"solution.cpp"
 typedef long long int lint;
-static int seed = 1234567891;
+// static int seed = 1234567891;
+static int seed = 1;
 int frand(){
 	seed = seed * 10007 + 33333331;
 	return seed & 0x3FFF;

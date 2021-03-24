@@ -8,11 +8,6 @@ static int _offset;
 static int _debug_flag = 1;
 static int _debug_answer = 0;
 
-
-
-
-
-
 // blacks number
 int blacks_partial_sum[65];
 void calc_blacks_sum(char photo[16][64]){
@@ -28,6 +23,7 @@ void calc_blacks_sum(char photo[16][64]){
 int blacks_sum(int l, int u){
     return blacks_partial_sum[u] - blacks_partial_sum[l];
 }
+
 // best candidate;
 char best_pick[57];
 int best_pick_noises[57];
@@ -58,12 +54,10 @@ void calc_best_candidate(char photo[16][64]){
 // 재귀
 int rsolv_best_pick = 0;
 int rsolv_last_noise;
-
 void rsolv(int remains, int x_lo, int cum_noise, int pick){
     if (remains==0){
         cum_noise += blacks_sum(x_lo, 56); // 중요! 남아있는 noise 포함
         if (cum_noise < rsolv_last_noise){
-
             rsolv_last_noise = cum_noise;
             rsolv_best_pick  = pick;
             // printf ("%d %d\n",rsolv_best_pick, rsolv_last_noise );
@@ -73,8 +67,7 @@ void rsolv(int remains, int x_lo, int cum_noise, int pick){
     if (x_lo >= 57) return;
 
     for (int i = x_lo ; i < 57 && i <= x_lo + 8 ; ++i)
-        rsolv(
-            remains - 1, 
+        rsolv( remains - 1, 
             i + 8 , 
             cum_noise + best_pick_noises[i] + blacks_sum(x_lo, i) , // 중요! 문자 사이사이의 noise 포함
             pick * 10 + best_pick[i]);

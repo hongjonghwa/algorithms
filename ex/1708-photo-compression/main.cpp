@@ -13,7 +13,7 @@ int MAXN = 1000;
 void encode(char QRC[100][100], char SRC[100]);
 void decode(char GRAY[100][100], char DST[100]);
 
-void report_noisy(int offsety, int offsetx, char tmp[200][200]){
+void report_map(int offsety, int offsetx, char tmp[200][200]){
 	for ( int y = 0 ; y < 16 ; ++y){
 		for (int x = 0 ; x < 100 ; ++x){
 			if (tmp[y+offsety][x+offsetx] == 1) printf("#");
@@ -54,16 +54,16 @@ int main(){
 				tmp[y+offsety][x+offsetx] = QRC[i][y][x];
 
 		if (i == 0){
-			printf("# Original \n ");
-			report_noisy(offsety, offsetx, tmp);
+			printf("# Original \n");
+			report_map(offsety, offsetx, tmp);
 		}
 
 		for ( int j = 0 ; j < 13000; ++j)
 			tmp[rand() % 200][rand() % 200] = 1;
 		
 		if (i == 0){
-			printf("# Noisy \n ");
-        	report_noisy(offsety, offsetx, tmp);
+			printf("# Noisy \n");
+        	report_map(offsety, offsetx, tmp);
 		}
 		
 		for ( int y = 0 ; y < 100; ++y)
@@ -86,5 +86,5 @@ int main(){
 	}
     ret += (double)(clock()-clk) * 1000 / CLOCKS_PER_SEC;
     printf("Score : %d \n", ret);
-    printf("err : %d \n", error_cnt);
+    printf("err : %d / %d \n", error_cnt, MAXN);
 }

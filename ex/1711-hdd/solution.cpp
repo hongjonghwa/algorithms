@@ -15,7 +15,7 @@ extern void hdd_read(int s, char data[512]);
 extern void hdd_write(int s, char data[512]);
 
 // not used
-char most_char4(char *d){
+inline char most_char4(char *d){
     if (d[0] == d[1] || d[0] == d[2] || d[0] == d[3]) return d[0];
     if (d[1] == d[2] || d[1] == d[3]) return d[1];
     return d[2];
@@ -38,13 +38,15 @@ void hdd_read2(int s, char data[256], int dup){
     }else if (dup == 4){
         for (int i = 0 ; i < l ; ++i){
             int o = i * dup;
+
+            // method 1
             //data[i] = most_char4(h+o); // 여기서 함수 호출하면 속도 저하가 큼
 
+            // method 2
             int candidate;
             if (h[o] == h[o+1] || h[o] == h[o+2] || h[o] == h[o+3]) candidate = h[o];
             else if (h[o+1] == h[o+2] || h[o+1] == h[o+3]) candidate = h[o+1];
             else candidate = h[o+2];
-
             data[i] = candidate;
         }
     }else if (dup == 5){

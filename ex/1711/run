@@ -1,5 +1,0 @@
-# g++ main.cpp solution.cpp -o a.out
-g++ main.cpp -o a.out
-./a.out
-
-rm a.out
