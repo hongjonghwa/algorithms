@@ -1,5 +1,4 @@
 #include<stdio.h>
-#include<assert.h>
 
 void report_qrc(char QRC[100][100]){
     for (int y = 0 ; y < 16 ; ++y){
@@ -19,23 +18,18 @@ void encode(char QRC[100][100], char SRC[100]){
     printf("\n");
     */
 
-    bool b[470];
-    for (int i = 0 ; i < 10 ; ++i){
-        unsigned long long int x = 0;
-        for (int j = 0 ; j < 10 ; ++j){
-            x *= 26;
-            x += SRC[i*10 + j] - 'A';
-        }
-        for (int k = 0 ; k < 47 ; ++k){
-            b[i*47 + k] = x & 1;
-            x = (x >> 1);
-        }
-        assert (x == 0);
+    bool b[500];
+    for (int i = 0 ; i < 500 ; ++i) b[i] = false;
+    for (int i = 0 ; i < 100 ; ++i){
+
+        char s = SRC[i] - 'A';
+        b[i*5] = s & 1;
+        b[i*5+1] = s & 2;
+        b[i*5+2] = s & 4;
+        b[i*5+3] = s & 8;
+        b[i*5+4] = s & 16;
     }
 
-
-
-    for (int i = 0 ; i < 500 ; ++i) b[i] = false;
     /*
     printf("eBit: ");
     for (int i = 0 ; i < 10 ; ++i) printf ("%c", b[i] ? '1' : '0');

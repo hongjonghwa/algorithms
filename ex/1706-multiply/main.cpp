@@ -5,6 +5,8 @@
 
 
 void mul(char a[128], char b[128], char c[256]);
+void test_run(char a[128], char b[128]);
+
 char a[128], b[128];
 
 inline char itoa(int n){
@@ -23,15 +25,24 @@ void randStr(char x[128]){
 
 int main(){
     char a[128], b[128], c[256];
-    for (int t = 0 ; t < 10 ; ++t){
+    for (int i = 0 ; i < 10 ; ++i){
+        randStr(a);
+        randStr(b);
+        test_run(a, b);
 
+    }
+
+    // return 0;
+
+    long long int clk = clock();
+    for (int t = 0 ; t < 10 ; ++t){
         for (int i = 0 ; i < 100000; ++i){
             randStr(a);
             randStr(b);
             mul(a,b,c);
-            //printf ("%s\n%s\n%s\n\n", a, b, c);
         }
     }
-    unsigned long long int max = -1;
-    printf("%llu", max);
+    printf("Execution time - %f\n", double(clock()-clk)/CLOCKS_PER_SEC);
+
+
 }

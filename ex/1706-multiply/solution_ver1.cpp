@@ -45,14 +45,14 @@ void mul_5(ulint aa[128], ulint bb[128], ulint cc[256], int aa_len, int bb_len){
     // conv 1 -> 5
     aa_len = (aa_len + 4)/5, bb_len = (bb_len + 4)/5; // ceil
     for (int i = 0 ; i < aa_len ; ++i)
-        aa[i] = aa[i*5] * B[0] 
+        aa[i] = aa[i*5]
             + aa[i*5+1] * B[1]
             + aa[i*5+2] * B[2]
             + aa[i*5+3] * B[3]
             + aa[i*5+4] * B[4];
 
     for (int i = 0 ; i < bb_len ; ++i)
-        bb[i] = bb[i*5] * B[0] 
+        bb[i] = bb[i*5]
             + bb[i*5+1] * B[1]
             + bb[i*5+2] * B[2]
             + bb[i*5+3] * B[3]
@@ -108,4 +108,9 @@ void mul(char a[128], char b[128], char c[256]){
         c[j] = ASC[cc[i]];
     if (cc_len != 256) c[cc_len] = 0;
 
+}
+
+
+void test_run(char a[128], char b[128]){
+    
 }
