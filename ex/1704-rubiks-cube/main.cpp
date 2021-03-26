@@ -46,45 +46,37 @@ bool is_correct(int cubies[9][6]){
 
 void init_cube(){
     cube_init(cubies);
-
-    // assertion
-    assert(cube_is_correct(cubies) == true);
-    for (int i = 0 ; i < 6 ; ++i){
-        for (int j = 0 ; j < 4 ; ++j ) rotate(i,0, cubies);
-        assert(cube_is_correct(cubies) == true);
-        for (int j = 0 ; j < 4 ; ++j ) rotate(i,1, cubies);
-        assert(cube_is_correct(cubies) == true);
-        rotate(i,0, cubies); 
-        rotate(i,1, cubies);
-        assert(cube_is_correct(cubies) == true);
-        rotate(i,1, cubies);
-        rotate(i,1, cubies);
-        rotate(i,0, cubies); 
-        rotate(i,0, cubies); 
-        assert(cube_is_correct(cubies) == true);
+    for (int i = 0 ; i < 10 ; ++i){
+        int f = rand() % 6;
+        int d = rand() % 2;
+        rotate (f, d, cubies);
     }
+}
 
+void test(){
+    cube_init(cubies);
+    
+    for (int i = 0 ; i < 6 ; ++i)
+        for (int j = 0 ; j < 2 ; ++j){
+            for (int k = 0 ; k < 3 ; ++k ) {
+                rotate(i,j, cubies);
+                assert(cube_is_correct(cubies) == false);
+            }
+            rotate(i,j, cubies);
+            assert(cube_is_correct(cubies) == true);
+        }
 
     for (int i = 0 ; i < 9 ; ++i)
         for (int j = 0 ; j < 6 ; ++j)
             assert(cubies[i][j] == j);
-    // assertion ==> clear
-
-    for (int i = 0 ; i < 10 ; ++i){
-        int f = rand() % 6;
-        int d = rand() % 2;
-
-
-        rotate (f,d, cubies);
-    }
 }
 
-
 int main(){
-    srand(2);
+    srand(42);
+    // test();
 
     for (int t = 0 ; t < 10 ; ++t){
-        printf("\n[run round : %d] \n", t+1);
+        printf("[run round : %d] \n", t+1);
         init_cube();
         test(cubies);
         //cube_output(cubies);

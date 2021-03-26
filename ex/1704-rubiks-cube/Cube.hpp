@@ -5,7 +5,6 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include <iostream>
 
 bool cube_is_correct (int cubies[9][6]);
 void cube_init (int cubies[9][6]);

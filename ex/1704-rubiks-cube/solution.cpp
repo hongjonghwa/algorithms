@@ -2,15 +2,18 @@
 #include "Cube.hpp"
 
 //#define BINS 3257437
-#define BINS 3999971
+//#define BINS 3999971
+// #define BINS 2999711
+#define BINS 1932611
+
 void rotate(int face, int direction, int cubies[9][6]);
 
 bool initiated = false;
 
 struct X{
-    int hash, face, direction, parent;//parent 는 이전 상태임
+    int hash, face, direction, parent; //parent 는 이전 상태임
 } x[3257437]; // 역방향 탐색은 상태공간이 필요없음
-int idx = 0;
+int x_idx = 0;
 int trial = 0;
 
 struct Node{
@@ -36,15 +39,16 @@ int hash(int cubies[9][6]){
             ret = ret * 7 + cubies[i][j];
         for (int i = 5 ; i < 9 ; ++i)
             ret = ret * 7 + cubies[i][j];
-        ret %= BINS;
+        // hashing 에서 overflow 는 관심사항이 아니다.
     }
-    
+    ret %= BINS;
     return ret ;
 }
 
 // face, direction 은 직전 회전 위치 -> 되돌아가지 않기 위해
 void bt(int cubies[9][6], int face, int direction, int parent, int lvl){
-    int cur = idx;
+    int cur = x_idx++;
+    // struct x 에 데이터 값을 저장하고,
     int h = hash(cubies);
     x[cur].hash = h;
     x[cur].face = face;
@@ -53,12 +57,12 @@ void bt(int cubies[9][6], int face, int direction, int parent, int lvl){
     //printf( "INIT: %d %d %d %d %d %d \n", cur, h, face, direction, parent, lvl);
     //cube_output(cubies);
 
-    // queue
-    node[idx].idx = cur;
-    node[idx].next = head[h];
-    head[h] = &node[idx];
-    
-    // stack ::  hash 값 충돌시 쌓는데 시간 소요( 충돌이 많을 시 더욱 치명적)
+    // node 에 linked list 형태로 데이터를 적재한다.
+    node[cur].idx = cur;
+    node[cur].next = head[h];
+    head[h] = &node[cur];
+
+    // linked list 끝단에 붙이는 것은 시간만 더 걸린다.  hash 값 충돌시 쌓는데 시간 소요( 충돌이 많을 시 더욱 치명적)
     /*
     if (!head[h]){ //  첫 입력
         node[idx].idx = cur;
@@ -73,8 +77,8 @@ void bt(int cubies[9][6], int face, int direction, int parent, int lvl){
     }
     */
 
-    idx++;
-    if (lvl == 6) return;
+
+    if (lvl == 5) return;
     for (int i = 0 ; i < 6; ++i){
         rotate(i, 0, cubies);
         if (!(i == face && direction == 1)) 
@@ -93,54 +97,30 @@ void init(){
         for (int j = 0 ; j < 6 ; ++j)
             cubies[i][j] = j;
     bt(cubies, -1, -1, -1, 0);
-
-    printf("Count : %d \n", idx);
-/*
-    for (int i = 0 ; i < idx ; ++i){
-        if (i > 5) break;
-        printf("%d   %d   %d   %d   %d\n",i, x[i].hash, x[i].face, x[i].direction, x[i].parent);
-    }
-    for (int i = 0 ; i < idx ; ++i){
-        if (i > 5) break;
-        printf("%d   %d \n", node[i].idx, node[i].next);
-    }
-*/
-    {
-        int i = 2961651;
-        int cnt = 0;
-        Node *p = head[i];
-        while (p){
-            cnt ++;
-            printf("%d ->", p->idx);
-            p = p->next;
-        }
-
-    }
-
+    printf("Initialize counting : %d \n", x_idx);
 }
 
 bool simulate(int cubies[9][6], int idx){
     int myCubies[9][6];
     for (int i = 0 ; i < 9 ; ++i) for (int j = 0 ; j < 6 ; ++j) myCubies[i][j] = cubies[i][j];
+    // 하나씩 따라가 본다.
     while(idx){
         rotate(x[idx].face,!x[idx].direction, myCubies);
         idx = x[idx].parent;
         if (x[idx].hash != hash(myCubies)) return false;
     }
     
-    // if (idx == 0 && x[idx].hash == hash(myCubies)) return true; // 최종 값에 도달하여도 hash 값이 같은지 다시 한 번 확인 
-    //--> hash 확인 만으론 불충분 면을 모두 확인 :
+    // 모든 면이 돌아왔는지 확인한다.
     for (int i = 0 ; i < 9 ; ++i) for (int j = 0 ; j < 6 ; ++j) if (myCubies[i][j] != j) return false;
     return true;
 
 }
 
 void run(int cubies[9][6], int idx){
-    while(idx){
+    while(idx){ // idx 0 은 정상 상태임 
         rotate(x[idx].face,!x[idx].direction, cubies);
         idx = x[idx].parent;
     }
-
 }
 
 bool try_bt(int cubies[9][6], int face, int direction, int lvl){
@@ -151,14 +131,14 @@ bool try_bt(int cubies[9][6], int face, int direction, int lvl){
         for (Node *p = head[h];p; p=p->next){
 
             if (simulate(cubies, p->idx)){
-                printf("Solution found! ");
-                run(cubies, p->idx);
+                printf("Solution found! "); // 답을 찾았다.
+                run(cubies, p->idx); // 이제 큐브를 돌리자.
                 return true;
             }
         }
     }
 
-    if (lvl == 4) return false;
+    if (lvl == 5) return false;
     bool founded = false;
     for (int i = 0 ; i < 6; ++i){
         rotate(i, 0, cubies);
@@ -176,9 +156,14 @@ bool try_bt(int cubies[9][6], int face, int direction, int lvl){
     return false;
 }
 
+int cum_trial = 0;
 void test(int cubies[9][6]){
+
     if (!initiated) { init(); initiated = true; }
+
     trial = 0;
     try_bt(cubies, -1, -1, 0);
-    printf("Trial: %d \n", trial);
+    cum_trial += trial;
+
+    printf("Trial: %d (cumulative %d) \n", trial, cum_trial);
 }

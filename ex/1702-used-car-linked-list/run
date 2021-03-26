@@ -1,4 +1,0 @@
-g++ main.cpp fastrand.cpp $1 -o a.out
-./a.out
-
-rm a.out
