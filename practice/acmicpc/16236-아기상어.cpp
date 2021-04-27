@@ -97,12 +97,11 @@ int solv(){
 
 int main(){
     // if ( freopen("input.txt", "r", stdin) == 0 ) return 255;
-    if ( scanf("%d", &N) != 1)
-        return 255;
+    if ( scanf("%d", &N) != 1) return EXIT_FAILURE ;
 
     for (int y = 0 ; y < N ; ++y)
         for (int x = 0 ; x < N ; ++x)
-            if (scanf("%d", &X[y][x]) != 1) return 255;
+            if (scanf("%d", &X[y][x]) != 1) return EXIT_FAILURE ;
     // report_map("initial", X);
 
     int ret = solv();
