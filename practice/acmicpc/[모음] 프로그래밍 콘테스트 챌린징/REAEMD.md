@@ -8,7 +8,7 @@ URL - https://www.acmicpc.net/problem/{id}
 7676	Saruman’s army
 6195	Fence Repair
 1826	연료 채우기
-6197	Roadblocks
+6197	Roadblocks ※ c 구현 - 그래프, heap
 7040	밥 먹기
 12724	Minimum Scalar Product (Large)
 12630	Crazy Rows (Large)
