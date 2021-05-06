@@ -8,12 +8,12 @@ URL - https://www.acmicpc.net/problem/{id}
 7676	Saruman’s army
 6195	Fence Repair
 1826	연료 채우기
-6197	Roadblocks ※ c로 해볼까?
-7040	밥 먹기 ※ 벨만 포드
+6197	Roadblocks                         ※ c로 해볼까?
+7040	밥 먹기                             ※ 벨만 포드
 12724	Minimum Scalar Product (Large)
 12630	Crazy Rows (Large)
-12642	Bribe the Prisoners (Large)
-12692	Millionaire (Large)
+12642	Bribe the Prisoners (Large)         ※ DP !!!
+12692	Millionaire (Large)                 ※ DP !!!
 7419	Cable master
 6233	Face The Right Way
 1704	붕어빵타이쿤
