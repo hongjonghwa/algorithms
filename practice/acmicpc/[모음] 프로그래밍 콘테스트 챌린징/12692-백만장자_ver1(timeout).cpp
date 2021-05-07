@@ -11,21 +11,20 @@ int T;
 
 double D[16][(1<<15) + 1];
 double solv(int round, double prob, int starting){
-    if (starting >= 1000000) return 1;
-    if (round == 0) return 0;
+    if (starting >= 1000000) return 1.;
+    if (round == 0) return 0.;
 
-    memset(D, 0, sizeof(D));
-    D[0][1] = 1.0;
-    int n = 1;
+    int n = (1<<round);
+    memset(D[0], 0, sizeof(D[0]));
+    D[0][n] = 1.0;
     for (int r = 1 ; r <= round ; ++r){
-        n <<= 1;
-        // assert(n < (1<<15) + 1);
+        assert(n < (1<<15) + 1);
         D[r][n] = 1.0;
         for (int i = 0 ; i < n ; ++i){
             D[r][i] = 0;
             int j_max = min(i, n-i);
             for (int j = 0; j <= j_max ; j++){
-                double t = prob*D[r-1][(i+j)/2] + (1-prob)*D[r-1][(i-j)/2];
+                double t = prob*D[r-1][i+j] + (1-prob)*D[r-1][i-j];
                 if (t>D[r][i]) D[r][i] = t;
             }
         }
