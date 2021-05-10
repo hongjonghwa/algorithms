@@ -1,9 +1,12 @@
 #include<cstdio>
 #include<cstring>
+#define INF 987654321
 
 int M, N;
 int X[17][17];
 int A[16][16];
+int best[16][16];
+int last = INF;
 
 void turnover(int y, int x){
     A[y][x] = !A[y][x];
@@ -14,49 +17,44 @@ void turnover(int y, int x){
     X[y+1][x] = !X[y+1][x];
 }
 
-bool bt(int y, int x){
-    if (x == N+1) x = 1, y = y+1;
+void bt(int y, int x, int cnt){
+    if (x == N+1) x = 1, y++;
     if (y == M+1){
-        bool ok = true;
+        if (cnt>=last) return;
         for (int x = 1 ; x < N+1 ; ++x)
-            if (X[M][x]) {
-                ok = false;
-                break;
-            }
-        return ok;
+            if (X[M][x]) return;
+
+        last = cnt;
+        memcpy(best, A, sizeof(A));
+        return;
     }
 
-    if (y == 1){
-        if (bt(y, x+1)) return true;
+    if (y == 1){ // permutation
+        bt(y, x+1, cnt);
         turnover(y,x);
-        if (bt(y, x+1)) return true;
+        bt(y, x+1, cnt+1);
         turnover(y,x);
-
-        return false;
     }
 
     if (y > 1 && y <= M){
         // assert (1 < y <= M)
-        bool turn=false;
-        if (X[y-1][x]){
-            turn=true;
-            turnover(y,x);
-        }
-        if (bt(y, x+1)) return true;
+        int turn=0;
+        if (X[y-1][x]) turn=1;
+        if (turn) turnover(y,x);
+        bt(y, x+1, cnt+turn);
         if (turn) turnover(y,x);
     }
-    return false;
+    return;
 }
 
 
 void solv(){
-    int ret = bt(1,1);
-    if (ret){
+    memset (A, 0, sizeof(A));
+    bt(1,1,0);
+    if (last < INF){
         for (int y = 1 ; y < M+1 ; ++y){
-            for (int x = 1 ; x < N+1 ; ++x){
-                if (x) printf(" ");
-                printf("%d", A[y][x]);
-            }
+            for (int x = 1 ; x < N+1 ; ++x)
+                printf("%d ", best[y][x]);
             printf("\n");
         }
     }

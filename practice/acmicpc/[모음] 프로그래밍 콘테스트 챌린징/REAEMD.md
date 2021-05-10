@@ -16,7 +16,7 @@ URL - https://www.acmicpc.net/problem/{id}
 12692	Millionaire (Large)                 ※ DP !!!
 7419	Cable master
 6233	Face The Right Way
-1704	붕어빵타이쿤
+1704	붕어빵타이쿤                         ※ 헤맨이유 - 뒤집는 횟수를 최소로 해야 하는 조건을 빼먹었다.
 7453	합이 0인 네 정수
 6661	Crane
 7469	K번째 수
