@@ -9,15 +9,15 @@ URL - https://www.acmicpc.net/problem/{id}
 6195	Fence Repair
 1826	연료 채우기
 6197	Roadblocks                         ※ c로 해볼까?
-7040	밥 먹기                             ※ 벨만 포드
+7040	밥 먹기                            ※ 벨만 포드
 12724	Minimum Scalar Product (Large)
 12630	Crazy Rows (Large)
-12642	Bribe the Prisoners (Large)         ※ DP !!!
-12692	Millionaire (Large)                 ※ DP !!!
+12642	Bribe the Prisoners (Large)        ※ DP !!!
+12692	Millionaire (Large)                ※ DP !!!
 7419	Cable master
 6233	Face The Right Way
-1704	붕어빵타이쿤                         ※ 헤맨이유 - 뒤집는 횟수를 최소로 해야 하는 조건을 빼먹었다.
-7453	합이 0인 네 정수
+1704	붕어빵타이쿤                        ※ 헤맨이유 - 뒤집는 횟수를 최소로 해야 하는 조건을 빼먹었다.
+7453	합이 0인 네 정수                ※ 볼 만한 소스 - https://www.acmicpc.net/source/25366197 (radix + counting 섞어서 최적화)
 6661	Crane
 7469	K번째 수
 1867	돌멩이 제거
