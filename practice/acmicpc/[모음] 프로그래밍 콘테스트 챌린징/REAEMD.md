@@ -1,3 +1,9 @@
+프로그래밍 콘테스트 챌린징
+Takuya Akiba, Yoichi Iwata, Mastoshi Kitagawa
+プログラミングコンテストチャレンジブック 問題解決のアルゴリズム活用力とコ―ディングテクニックを鍛える
+
+
+
 # https://www.acmicpc.net/workbook/view/4912
 
 URL - https://www.acmicpc.net/problem/{id}
