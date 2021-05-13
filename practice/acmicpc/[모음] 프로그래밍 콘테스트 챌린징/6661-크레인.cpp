@@ -1,59 +1,96 @@
 #include<cstdio>
+#include<cstring>
 #include<algorithm>
 #include <math.h> 
 #define PI 3.14159265358979323846  // 소수 20자리 까지
 
-// const PI = acos(-1.0);  // ==> 소수 15자리까지는 정확
-// 3.141592653589793 116 ()
-
-
 typedef std::pair<double, double> pdd;
 
 using namespace std;
-
 
 int N, C; //  1 ≤ n ≤ 10 000 and c ≥ 0
 int L[10001]; // len
 pdd P[10001];
 short A[10001];
 
-void report(){
-    for (int i = 1 ; i <= N ; ++i)
-        printf("[%d] x %.2f, y %.2f, a %d\n", i, P[i].first, P[i].second, A[i]);
-}
+// segment tree
+pdd ST[40001];
+int LAZY[40001];
+
 pdd rotation(pdd point, int angle){
     double radian = PI * angle / 180;
     double &x = point.first;
     double &y = point.second;
     return make_pair(x*cos(radian)  - y * sin(radian), x*sin(radian) + y*cos(radian) );
 }
-pdd rotation_from(pdd point, int angle, pdd from){
-    pdd v = make_pair(point.first - from.first, point.second - from.second);
-    pdd v2 = rotation(v, angle);
-    return make_pair(v2.first + from.first, v2.second + from.second);
+
+void segtree_init(int node, int left, int right){
+    if (left == right){
+        ST[node] = P[left]; // leaf init
+        return;
+    }
+    int mid = (left + right)/2;
+    segtree_init(node*2, left, mid);
+    segtree_init(node*2+1, mid+1, right);
+    ST[node].first = ST[node*2].first + ST[node*2+1].first;
+    ST[node].second = ST[node*2].second + ST[node*2+1].second;
+}
+void segtree_update(int upd_val, int upd_left, int upd_right,  int node, int node_left, int node_right){
+    // lazy resolve...
+    if (LAZY[node] != 0){
+        ST[node] = rotation(ST[node], LAZY[node]);
+        if (node_left != node_right){
+            LAZY[node*2] += LAZY[node];
+            LAZY[node*2+1] += LAZY[node];
+        }
+        LAZY[node] = 0;
+    }
+
+    if (upd_right < node_left || node_right < upd_left) return;
+
+    // lazy update...
+    if (upd_left <= node_left && node_right <= upd_right ){
+        ST[node] = rotation(ST[node], upd_val);
+        if (node_left != node_right){
+            LAZY[node*2] += upd_val;
+            LAZY[node*2+1] += upd_val;
+        }
+        return;
+    }
+
+
+    int node_mid = (node_left + node_right)/2;
+    segtree_update(upd_val, upd_left, upd_right, node*2, node_left, node_mid);
+    segtree_update(upd_val, upd_left, upd_right, node*2+1, node_mid+1, node_right);
+    ST[node].first = ST[node*2].first + ST[node*2+1].first;
+    ST[node].second = ST[node*2].second + ST[node*2+1].second;
+}
+void update(int upd_val, int upd_left, int upd_right){
+    segtree_update(upd_val, upd_left, upd_right, 1, 1, N);
 }
 
 void calc(int s, int a){
-    int d_a = a-A[s];
-    // printf("rotation %d degree at %d\n", d_a, s);
-    for (int i = s+1; i <= N ; ++i)
-        P[i] = rotation_from(P[i], d_a, P[s]);
-    printf ("%.2f %.2f\n", P[N].first, P[N].second);
+    int delta_angle = a-A[s];
+    if (delta_angle != 0)
+        update(delta_angle, s+1, N);
     A[s] = a;
+
+    printf ("%.2f %.2f\n", ST[1].first, ST[1].second);
 }
 
 int main(){
 
-
     for (;;){
         if ( scanf("%d %d\n", &N, &C) != 2 ) break;
-        P[0].first = P[0].second = 0.0;
+
         for (int i = 1 ; i <= N ; ++i){
             if ( scanf("%d", &L[i]) != 1 ) return 1;
             P[i].first = 0.0; // x
-            P[i].second = P[i-1].second + L[i];  // y
+            P[i].second = L[i];  // y
             A[i] = 180;
         }
+        segtree_init(1, 1, N);
+        memset(LAZY, 0, sizeof(LAZY));        
         // report();
         for (int i = 0 ; i < C ; ++i){
             int s, a;
