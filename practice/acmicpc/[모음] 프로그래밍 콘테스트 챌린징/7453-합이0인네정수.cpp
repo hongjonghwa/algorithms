@@ -36,7 +36,7 @@ void rsrt(int *x, int n){
 
 }
 
-long long int solv(){
+long long solv(){
     int i, j, k;
 
     const int abs_max = 1<<28; // offset 
@@ -55,14 +55,14 @@ long long int solv(){
     rsrt(XX[0], N2);
     rsrt(XX[1], N2);
 
-    long long int ret = 0;
+    long long ret = 0;
     i = j = 0;
     while (i < N2 && j < N2){
         if (XX[0][i]==XX[1][j]){ // 같은 수 연속 고려
             int cnt1 = 1, cnt2 = 1;
             while (i+cnt1<N2 && XX[0][i]==XX[0][i+cnt1]) cnt1++;
             while (j+cnt2<N2 && XX[1][j]==XX[1][j+cnt2]) cnt2++;
-            ret += (long long int)cnt1*(long long int)cnt2;
+            ret += (long long)cnt1*(long long)cnt2;
             i += cnt1;
             j += cnt2;
         }else if (XX[0][i] < XX[1][j]) i++;
