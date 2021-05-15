@@ -23,9 +23,9 @@ URL - https://www.acmicpc.net/problem/{id}
 7419	Cable master
 6233	Face The Right Way
 1704	붕어빵타이쿤                        ※ 헤맨이유 - 뒤집는 횟수를 최소로 해야 하는 조건을 빼먹었다.
-7453	합이 0인 네 정수                ※ 볼 만한 소스 - https://www.acmicpc.net/source/25366197 (radix + counting 섞어서 최적화)
+7453	합이 0인 네 정수                    ※ 볼 만한 소스 - https://www.acmicpc.net/source/25366197 (radix + counting 섞어서 최적화)
 6661	Crane
-7469	K번째 수
+7469	K번째 수                            ※ merge tree 최적화 !!! (그리고 이분탐색은 참 어렵다.)
 1867	돌멩이 제거
 1886	프리즌 브레이크
 6241	Dining
