@@ -26,7 +26,7 @@ URL - https://www.acmicpc.net/problem/{id}
 7453	합이 0인 네 정수                    ※ 볼 만한 소스 - https://www.acmicpc.net/source/25366197 (radix + counting 섞어서 최적화)
 6661	Crane
 7469	K번째 수                            ※ merge tree 최적화 !!! (그리고 이분탐색은 참 어렵다.)
-1867	돌멩이 제거
+1867	돌멩이 제거                         ※ 쾨닉의 정리
 1886	프리즌 브레이크
 6241	Dining
 12728	n제곱 계산
