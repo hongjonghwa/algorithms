@@ -1,5 +1,3 @@
-
-
 11 12
 XXXXXXXXXXXX
 X..........D
@@ -14,11 +12,6 @@ X..........D
 XXXXXXXXXXXX
 
 
-
-3 3
-XDX
-X.X
-XXX
 
 
 11 7
@@ -49,6 +42,11 @@ XXXXXX
 
 
 
+
+3 3
+XXX
+X.X
+XXX
 
 5 5
 XXXXX
