@@ -1,117 +1,101 @@
-
-
-11 12
-XXXXXXXXXXXX
-X..........D
-X.XXXXXXXXXX
-X..........X
-XXXXXXXXXX.X
-X..........D
-X.XXXXXXXXXX
-X..........X
-XXXXXXXXXX.X
-X..........D
-XXXXXXXXXXXX
-
-
-
-3 3
-XDX
-X.X
-XXX
-
-
-11 7
-XXXXXXX
-X.....D
-X.XXXXX
-X.....X
-XXXXX.X
-X.....D
-X.XXXXX
-X.....X
-XXXXX.X
-X.....D
-XXXXXXX
-
-
-
-
-7 6
-XXXXXX
-X....D
-X....X
-X....X
-X....D
-X....D
-XXXXXX
-
-
-
-
-
-5 5
-XXXXX
-X..XX
-X...D
-X..XD
-XXXXX
-
-
-11 12
-XXXXXXXXXXXX
-X..........D
-X..........X
-X....X.....X
-X...X.X....X
-X....X.....X
-D..........X
-X..........X
-X..........X
-X..........X
-XXXXXXXXXXXX
-
-
-
-
-
-5 5
-XXXDD
-X...X
-X...X
-X...X
-XXXXX
-
-
-
-5 5
-XXDXX
-X...X
-D...X
-X...D
-XXXXX
-
-
-5 12
-XXXXXXXXXXXX
-X..........D
-X.XXXXXXXXXX
-X..........X
-XXXXXXXXXXXX
-
-
-
-
-
-
-5 5
-XDXXX
-X.X.D
-XX.XX
-D.X.X
-XXXDX
-
-
-
-
-
+100 100 100
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+4 4 1 2 3 4 1 2 3 4
