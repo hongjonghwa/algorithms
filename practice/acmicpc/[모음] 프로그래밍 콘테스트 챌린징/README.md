@@ -30,12 +30,9 @@ URL - https://www.acmicpc.net/problem/{id}
 1867	돌멩이 제거                         ※ 쾨닉의 정리
 1886	프리즌 브레이크                      ※ (시간대별로) 노드를 늘리기 보다, 이분 탐색이 더 심플하고 빠른 것 같다..
 6241	Dining
-
-
-[쉽지 않다.]
-
 12728	n제곱 계산
-11014	컨닝 2
+1014	컨닝                               ※ DP
+11014	컨닝 2                             ※ 이분매칭
 12634	Stock Charts (Large)
 12636	Watering Plants (Large)
 12720	Number Sets (Large)
