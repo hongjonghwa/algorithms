@@ -27,6 +27,8 @@ URL - https://www.acmicpc.net/problem/{id}
 7453	합이 0인 네 정수                    ※ 볼 만한 소스 - https://www.acmicpc.net/source/25366197 (radix + counting 섞어서 최적화)
 6661	Crane
 7469	K번째 수                            ※ merge tree 최적화 !!! (그리고 이분탐색은 참 어렵다.)
+
+-- 이후 네트워크 유량 알고리즘
 1867	돌멩이 제거                         ※ 쾨닉의 정리
 1886	프리즌 브레이크                      ※ (시간대별로) 노드를 늘리기 보다, 이분 탐색이 더 심플하고 빠른 것 같다..
 6241	Dining
@@ -34,6 +36,10 @@ URL - https://www.acmicpc.net/problem/{id}
 1014	컨닝                               ※ DP
 11014	컨닝 2                             ※ 이분매칭
 12634	Stock Charts (Large)
+
+
+
+-- 미 진행
 12636	Watering Plants (Large)
 12720	Number Sets (Large)
 12616	Wi-fi Towers (Large)
