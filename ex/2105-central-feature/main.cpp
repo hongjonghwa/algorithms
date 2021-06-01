@@ -5,7 +5,8 @@
 
 double X[100000][3], X_BAK[100000][3];
 inline int myrand(){ // 원래는 fast-rand
-    return rand() % 32768;
+    //return rand() % 32768;
+    return rand() & 0x7fff;
 }
 
 void build(){
