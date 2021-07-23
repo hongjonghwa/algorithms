@@ -38,7 +38,6 @@ URL - https://www.acmicpc.net/problem/{id}
 12634	Stock Charts (Large)
 
 
-
 -- 미 진행
 12636	Watering Plants (Large)
 12720	Number Sets (Large)
