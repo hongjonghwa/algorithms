@@ -1,116 +1,140 @@
-#include <bits/stdc++.h>
-#include "geom/Vector2D.cpp"
-
-#define F first 
-#define S second 
-#define pb push_back
-#define mp make_pair
 // https://codingcompetitions.withgoogle.com/codejam/round/0000000000432cc7/0000000000432ad3#analysis
 
+#include <bits/stdc++.h>
 using namespace std;
-const double EPSILON = 1e-8;
-typedef pair<Vector2D, double> Circle;
+#define pb push_back
+#define inf 987654321
 
-/*
-1 ≤ X ≤ 1000
-1 ≤ Y ≤ 1000
-1 ≤ R ≤ 100
-1 ≤ C ≤ 30
-1 ≤ N ≤ 40
-*/
+struct plant{ int x,y,r; };
+struct point{
+    double x,y; 
+    point(double _x, double _y) : x(_x), y(_y) {}
+    point(){}
+};
 
-void assert_touch_boundary(Circle cover, Circle c1){
-    double t = hypot(c1.F.x - cover.F.x, c1.F.y - cover.F.y) + c1.S;
-    assert(fabs(t - cover.S) < EPSILON);   
-}
+// 2 circle 의 교점 - https://mathworld.wolfram.com/Circle-CircleIntersection.html
+bool intersectionOf2Circle( double x1, double y1, double r1, 
+                            double x2, double y2, double r2, point &ret1, point& ret2){
+    
+    double dy = y2-y1, dx = x2-x1;
+    double D = hypot(dx, dy);
+    if (D < fabs(r1-r2) || D > r1+r2) return false; // 교차하지 않음
+    /* 피라고라스 
+        dp  -  (x1,y1) 에서의 교차점 사이의 직선까지의 거리 
+        dq  -  dx에서 교차점까지 떨어진 거리
 
-bool cover(Circle c1, Circle c2, Circle & result){
-    const double& x1 = c1.F.x, &y1 = c1.F.y, &r1 = c1.S; // x, y, r
-    const double& x2 = c2.F.x, &y2 = c2.F.y, &r2 = c2.S;
+        dp^2 + dq^2 = r1^2             (1)
+        (D-dp)^2 + dq^2 = r2^2         (2)
+        D^2 - 2Ddp = r2^2 - r1^2       (2) - (1)
+        dp = (D^2 + r1^2 - r2^2) / 2D
+    */
+    double dp = (D*D + r1*r1 - r2*r2)/(2*D);
+    double dq = sqrt(r1*r1 - dp*dp);
+    
+    double dp_x = dx * dp/D;
+    double dp_y = dy * dp/D;
+    /* 벡터 회전
+       |cosθ -sinθ|
+       |sinθ  cosθ|
+    */
+    double dq_x = dq * -dy/D;
+    double dq_y = dq * dx/D;
 
-    if (x1==x2 && y1==y2) return false;
-
-    double dist = hypot(x2-x1, y2-y1);
-    double ratio = (dist + r2 - r1) / (2 * dist);
-    result.F.x = x1 + (x2-x1) * ratio;
-    result.F.y = y1 + (y2-y1) * ratio;
-    result.S = (dist+r1+r2)/2;
+    ret1.x = x1 + dp_x + dq_x, ret1.y = y1 + dp_y + dq_y;
+    ret2.x = x1 + dp_x - dq_x, ret2.y = y1 + dp_y - dq_y;
     return true;
 }
 
-bool cover(Circle c1, Circle c2, Circle c3, Circle & result){
-    const double& x1 = c1.F.x, &y1 = c1.F.y, &r1 = c1.S; // x, y, r
-    const double& x2 = c2.F.x, &y2 = c2.F.y, &r2 = c2.S;
-    const double& x3 = c3.F.x, &y3 = c3.F.y, &r3 = c3.S;
-
-    if (x1==x2 && y1==y2) return false;
-    if (x2==x3 && y2==y3) return false;
-    if (x1==x3 && y1==y3) return false;
+double solv(vector<plant> input){
+    double l = 0, u = 808;
+    for (size_t i = 0 ; i < input.size() ; ++i)
+        if (l < input[i].r) 
+            l = input[i].r;
     
-    pair<double, double> directionLine1 = MP( GET_X(c2)- GET_X(c1) , GET_Y(c2) -  GET_Y(c1));
-    pair<double, double> directionLine2 = MP( GET_X(c3)- GET_X(c1) , GET_Y(c3) -  GET_Y(c1));
-    // 외적이 0 이면 평행하고 교차하지 않음 (x1*y2 - y1*x2)
-    if ( directionLine1.F*directionLine2.S == directionLine1.S * directionLine2.F ) return false;
+    while (u-l > 1e-6){
+        double r = (u+l)/2;
+        vector<point> candidates;
 
-    Circle starting1;
-    cover(c1,c2,starting1); // starting point
-    pair<double, double> tangentLine1 = MP(-directionLine1.S, directionLine1.F);
+        for (size_t i = 0 ; i < input.size() ; ++i)
+            candidates.emplace_back(input[i].x, input[i].y);
 
-    Circle starting2;
-    cover(c1,c3,starting2);
-    pair<double, double> tangentLine2 = MP(-directionLine2.S, directionLine2.F);
+        for (size_t i = 0 ; i < input.size() ; ++i)
+            for (size_t j = i+1 ; j < input.size() ; ++j){
+                point p1, p2;
+                if ( intersectionOf2Circle( input[i].x, input[i].y, r-input[i].r,
+                                            input[j].x, input[j].y, r-input[j].r, p1, p2 ) )
+                {
+                    candidates.pb(p1);
+                    candidates.pb(p2);
+                }
+            }
 
-    
-    double dist = hypot(x2-x1, y2-y1);
-    double ratio = (dist + r2 - r1) / (2 * dist);
-    double x4 = x1 + (x2-x1) * ratio;
-    double y4 = y1 + (y2-y1) * ratio;
-    double r4 = (dist+r1+r2)/2;
-    return make_tuple(x4,y4,r4);
-}
-
-double solv(vector<Circle> v){
-    vector<Circle> candidate;
-    // 1
-    for (size_t i = 0 ; i < v.size() ; ++i)
-        candidate.pb(v[i]);
-    assert( v.size() == candidate.size() );
-    // 2
-    for (size_t i = 0 ; i < v.size() ; ++i)
-        for (size_t j = i+1 ; j < v.size() ; ++j){
-            Circle c;
-            if (cover(v[i], v[j], c)) candidate.push_back(c);
-            // assertion
-            assert_touch_boundary(c, v[i]);
-            assert_touch_boundary(c, v[j]);
-
+        bool ok = false;
+        for (size_t c1 = 0 ; c1 < candidates.size() ; ++c1){
+            for (size_t c2 = c1+1 ; c2 < candidates.size() ; ++c2){
+                bool all_in = true;
+                for (size_t i = 0 ; i < input.size() ; ++i){
+                    if ( // 둘 다 out 이면,,, 
+                        hypot(candidates[c1].x-input[i].x, candidates[c1].y-input[i].y) + input[i].r - r > 1e-8 &&
+                        hypot(candidates[c2].x-input[i].x, candidates[c2].y-input[i].y) + input[i].r - r > 1e-8  ) 
+                    {
+                        all_in = false;
+                        break;
+                    }
+                }
+                if (all_in) {
+                    ok = true;
+                    break;
+                }
+            }
+            if (ok) break;
         }
-    // 3
-    for (size_t i = 0 ; i < v.size() ; ++i)
-        for (size_t j = i+1 ; j < v.size() ; ++j)
-            for (size_t k = j+1 ; k < v.size() ; ++k)
-    return 0.0;
+
+        if (ok)  u = r ;
+        else {
+            l = r;
+        }
+    }
+    return u;
 }
+
 
 void input(){    
-    int C,N,X,Y,R;
+    int C,N;
     cin >> C;
     for (auto c = 1 ; c <= C ; ++c){
         cin >> N;
-        vector<Circle> v;
+        vector<plant> v;
         v.reserve(N);
         for (auto n = 0 ; n < N ; ++n ){
-            cin >> X >> Y >> R;
-            v.emplace_back(Vector2D(X,Y),R);
+            plant p;
+            cin >> p.x >> p.y >> p.r;
+            v.pb(p);
         }
         double ans = solv(v);
         cout << "Case #" << c << " " << ans << "\n";
     }
 }
 
+void test(){
+    double x1 = 10, y1 = 10, r1 = 13.07200;
+    double x2 = 20, y2 = 20 ,r2 = 1.07200;
+    point p1, p2;
+    bool ret = intersectionOf2Circle(x1,y1,r1, x2,y2,r2, p1,p2);
+    cout << "RET : " << ret << "\n";
+    cout << "  Circle 1 (" << x1 << ","<< y1 << ","<< r1 << ") ";
+    cout << "  Circle 2 (" << x2 << ","<< y2 << ","<< r2 << ") \n";
+    cout << "  Intersection 1 (" << p1.x << ","<< p1.y << ") \n";
+    cout << "  Intersection 2 (" << p2.x << ","<< p2.y << ") \n\n";
+}
+
+
 int main(){
     ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);  
     if (!freopen("input.txt", "rt", stdin)) return 1;
     cout << fixed;
+
+    // test(); return 0;
+
     input();
 }

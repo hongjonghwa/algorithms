@@ -1,7 +1,19 @@
 #include<cmath>
 
-const double EPSILON = 1e-8;
-const double PI = 2.0 * acos(0.0);
+/*
+벡터의 내적 - 두 벡터의 사이각 얻기 cosine
+            - 직각 여부 확인하기
+            - projection
+
+벡터의 외적 - 면적 계산
+            - 평행 여부 확인하기
+            - 방향 판별, 교차여부 ccw
+            - 교차점
+*/
+
+// const double EPSILON = 1e-8;
+// const double PI = 2.0 * acos(0.0);
+const double PI = acos(-1);
 
 // 2차원 벡터를 표현한다
 struct Vector2D {
@@ -56,3 +68,22 @@ struct Vector2D {
 		return r * r.dot(*this);
 	}
 };
+
+
+// (a,b) 를 포함하는 선과 (c,d) 를 포함하는 선의 교점을 x 에 반환한다.
+// 두 선이 평행이면 (겹치는 경우를 포함) 거짓을, 아니면 참을 반환한다.
+/*
+    [증명]
+    P = A + s AB                                      (1)
+    P = C + t CD                                      (2)
+    s AB = t CD + AC                                  (1)+(2)
+    s AB × CD = AC × CD                               (because CD × CD = 0)
+    s = AC × CD / AB × CD      ( AB × CD != 0 일 때)  (3)
+    P = A + AB * AC × CD / AB × CD                    (1)+(3)
+*/
+bool lineIntersection(Vector2D a, Vector2D b, Vector2D c, Vector2D d, Vector2D& x) {
+	double det = (b - a).cross(d - c); // AB × CD
+	if(det == 0) return false;
+	x = a + (b - a) * ((c - a).cross(d - c) / det); 
+	return true;
+}
