@@ -75,8 +75,8 @@ double solv(vector<plant> input){
                 bool all_in = true;
                 for (size_t i = 0 ; i < input.size() ; ++i){
                     if ( // 둘 다 out 이면,,, 
-                        hypot(candidates[c1].x-input[i].x, candidates[c1].y-input[i].y) + input[i].r - r > 1e-8 &&
-                        hypot(candidates[c2].x-input[i].x, candidates[c2].y-input[i].y) + input[i].r - r > 1e-8  ) 
+                        hypot(candidates[c1].x-input[i].x, candidates[c1].y-input[i].y) + input[i].r - r > 1e-9 &&
+                        hypot(candidates[c2].x-input[i].x, candidates[c2].y-input[i].y) + input[i].r - r > 1e-9 ) 
                     {
                         all_in = false;
                         break;
@@ -131,10 +131,8 @@ void test(){
 
 int main(){
     ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);  
-    if (!freopen("input.txt", "rt", stdin)) return 1;
+    //if (!freopen("input.txt", "rt", stdin)) return 1;
     cout << fixed;
-
     // test(); return 0;
-
     input();
 }
