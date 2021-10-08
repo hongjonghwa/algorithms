@@ -3,14 +3,30 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define pb push_back
-#define inf 987654321
 
-struct plant{ int x,y,r; };
+const double eps=1e-9;
+
+struct plant{ double x,y,r; };
 struct point{
     double x,y; 
     point(double _x, double _y) : x(_x), y(_y) {}
     point(){}
 };
+
+
+/* TEMPORARY */
+
+template<class T> inline T sqr(T x){return x*x;}
+double dist(double x1,double y1,double x2,double y2){return sqrt(sqr(x1-x2)+sqr(y1-y2));}
+template<class T> T cross(T x0,T y0,T x1,T y1,T x2,T y2){return (x1-x0)*(y2-y0)-(x2-x0)*(y1-y0);}
+int compare(double a,double b){return(fabs(a-b)<=eps)?0:((a<b)?-1:1);}
+double ppDistance(const point &a,const point &b)
+{
+	return dist(a.x,a.y,b.x,b.y);
+}
+
+/* TEMPORARY */
+
 
 // 2 circle 의 교점 - https://mathworld.wolfram.com/Circle-CircleIntersection.html
 bool intersectionOf2Circle( double x1, double y1, double r1, 
@@ -18,7 +34,8 @@ bool intersectionOf2Circle( double x1, double y1, double r1,
     
     double dy = y2-y1, dx = x2-x1;
     double D = hypot(dx, dy);
-    if (D < fabs(r1-r2) || D > r1+r2) return false; // 교차하지 않음
+    // if (D < fabs(r1-r2) || D > r1+r2) return false; // 교차하지 않음
+    if (D < fabs(r1-r2)-eps || D > r1+r2+eps) return false; // try
     /* 피라고라스 
         dp  -  (x1,y1) 에서의 교차점 사이의 직선까지의 거리 
         dq  -  dx에서 교차점까지 떨어진 거리
@@ -45,94 +62,92 @@ bool intersectionOf2Circle( double x1, double y1, double r1,
     return true;
 }
 
-double solv(vector<plant> input){
-    double l = 0, u = 808;
-    for (size_t i = 0 ; i < input.size() ; ++i)
-        if (l < input[i].r) 
-            l = input[i].r;
-    
-    while (u-l > 1e-6){
-        double r = (u+l)/2;
-        vector<point> candidates;
 
-        for (size_t i = 0 ; i < input.size() ; ++i)
-            candidates.emplace_back(input[i].x, input[i].y);
 
-        for (size_t i = 0 ; i < input.size() ; ++i)
-            for (size_t j = i+1 ; j < input.size() ; ++j){
-                point p1, p2;
-                if ( intersectionOf2Circle( input[i].x, input[i].y, r-input[i].r,
-                                            input[j].x, input[j].y, r-input[j].r, p1, p2 ) )
-                {
-                    candidates.pb(p1);
-                    candidates.pb(p2);
-                }
+/* temporary */
+const int maxn=40+5;
+int n;
+point C[maxn];
+double R[maxn];
+// int m;
+// point P[maxn*maxn];
+
+
+
+bool check(double r){
+    vector<point> candidates;
+	for (int i = 0 ; i < n ; i++) candidates.pb(C[i]);
+
+	for (int i = 0 ; i < n ; ++i)
+		for (int j = i+1 ; j < n ; ++j){
+			point p1, p2;
+			if (intersectionOf2Circle(C[i].x, C[i].y, r-R[i], 
+                                      C[j].x, C[j].y, r-R[j], p1, p2))
+
+            {
+                candidates.pb(p1);
+                candidates.pb(p2);
             }
+        }
 
-        bool ok = false;
-        for (size_t c1 = 0 ; c1 < candidates.size() ; ++c1){
-            for (size_t c2 = c1+1 ; c2 < candidates.size() ; ++c2){
-                bool all_in = true;
-                for (size_t i = 0 ; i < input.size() ; ++i){
-                    if ( // 둘 다 out 이면,,, 
-                        hypot(candidates[c1].x-input[i].x, candidates[c1].y-input[i].y) + input[i].r - r > 1e-9 &&
-                        hypot(candidates[c2].x-input[i].x, candidates[c2].y-input[i].y) + input[i].r - r > 1e-9 ) 
-                    {
-                        all_in = false;
-                        break;
-                    }
-                }
-                if (all_in) {
-                    ok = true;
+    for (size_t i = 0 ; i < candidates.size() ; ++i){
+        for (size_t j = i ; j < candidates.size() ; ++j){
+            bool all_in = true;
+            for (int k = 0 ; k < n ; ++k){
+
+                if ( // 둘 다 out 이면,,, 
+                    compare(ppDistance(candidates[i], C[k]), r - R[k]) > 0
+                    && compare(ppDistance(candidates[j], C[k]), r - R[k]) > 0)
+                {
+                    all_in = false;
                     break;
                 }
             }
-            if (ok) break;
+            if (all_in) return true;
         }
+    }
+    return false;
 
+}
+
+double solv(){
+    double l = 0, u = 808;
+    for (int i = 0 ; i < n ; ++i)
+        if (l < R[i]) 
+            l = R[i];
+    
+    while (fabs(u-l) > 1e-9){
+        double r = (u+l)/2.0;
+        bool ok = check(r);
         if (ok)  u = r ;
         else {
             l = r;
         }
     }
-    return u;
-}
-
-
-void input(){    
-    int C,N;
-    cin >> C;
-    for (auto c = 1 ; c <= C ; ++c){
-        cin >> N;
-        vector<plant> v;
-        v.reserve(N);
-        for (auto n = 0 ; n < N ; ++n ){
-            plant p;
-            cin >> p.x >> p.y >> p.r;
-            v.pb(p);
-        }
-        double ans = solv(v);
-        cout << "Case #" << c << " " << ans << "\n";
-    }
-}
-
-void test(){
-    double x1 = 10, y1 = 10, r1 = 13.07200;
-    double x2 = 20, y2 = 20 ,r2 = 1.07200;
-    point p1, p2;
-    bool ret = intersectionOf2Circle(x1,y1,r1, x2,y2,r2, p1,p2);
-    cout << "RET : " << ret << "\n";
-    cout << "  Circle 1 (" << x1 << ","<< y1 << ","<< r1 << ") ";
-    cout << "  Circle 2 (" << x2 << ","<< y2 << ","<< r2 << ") \n";
-    cout << "  Intersection 1 (" << p1.x << ","<< p1.y << ") \n";
-    cout << "  Intersection 2 (" << p2.x << ","<< p2.y << ") \n\n";
+    return (u+l)/2;
 }
 
 
 int main(){
     ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);  
     //if (!freopen("input.txt", "rt", stdin)) return 1;
-    cout << fixed;
+    ios::sync_with_stdio(true);
     // test(); return 0;
-    input();
+    int TC;
+    cin >> TC;
+    // scanf("%d",&TC);
+
+    for (auto test = 1 ; test <= TC ; ++test){
+        cin >> n;
+        for (int i=0;i<n;i++)
+            cin >> C[i].x >> C[i].y >> R[i];
+
+
+        double answer = solv();
+        cout << setprecision(12);
+        // cout <<  "Case #" << test << " " << answer << "\n"; // why wrong?
+        printf ( "Case #%d: %.12lf\n",test,answer);
+		fflush(stdout);
+    }
+
 }
