@@ -36,9 +36,7 @@ URL - https://www.acmicpc.net/problem/{id}
 1014	컨닝                               ※ DP
 11014	컨닝 2                             ※ 이분매칭
 12634	Stock Charts (Large)
-
--- 풀이 중
-12636	Watering Plants (Large)
+12636	Watering Plants (Large)            ※ 이분탐색 (why? LargeSet에서 cout은 에러가 날까?)
 
 -- 미 진행
 12720	Number Sets (Large)

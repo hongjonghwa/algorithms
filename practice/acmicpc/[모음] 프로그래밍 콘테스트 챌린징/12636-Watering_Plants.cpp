@@ -15,7 +15,6 @@ struct point{
 
 
 /* TEMPORARY */
-
 template<class T> inline T sqr(T x){return x*x;}
 double dist(double x1,double y1,double x2,double y2){return sqrt(sqr(x1-x2)+sqr(y1-y2));}
 template<class T> T cross(T x0,T y0,T x1,T y1,T x2,T y2){return (x1-x0)*(y2-y0)-(x2-x0)*(y1-y0);}
@@ -24,7 +23,6 @@ double ppDistance(const point &a,const point &b)
 {
 	return dist(a.x,a.y,b.x,b.y);
 }
-
 /* TEMPORARY */
 
 
@@ -63,15 +61,11 @@ bool intersectionOf2Circle( double x1, double y1, double r1,
 }
 
 
-
 /* temporary */
 const int maxn=40+5;
 int n;
 point C[maxn];
 double R[maxn];
-// int m;
-// point P[maxn*maxn];
-
 
 
 bool check(double r){
@@ -107,8 +101,8 @@ bool check(double r){
         }
     }
     return false;
-
 }
+
 
 double solv(){
     double l = 0, u = 808;
@@ -129,7 +123,7 @@ double solv(){
 
 
 int main(){
-    ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);  
+    ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
     //if (!freopen("input.txt", "rt", stdin)) return 1;
     ios::sync_with_stdio(true);
     // test(); return 0;
